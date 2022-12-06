@@ -41,9 +41,11 @@ int Smart_DefiningResourceCapacity::main(int argc, char** argv) {
 	Model* model = genesys->getModels()->newModel();
 	PluginManager* plugins = genesys->getPlugins();
 	
-        Create* create1 = plugins->newInstance<Create>(model);
-        create1->setTimeUnit(Util::TimeUnit::minute);
-        create1->setEntitiesPerCreation(1);  // igual EntitiesPerArrival?
+        Create* create = plugins->newInstance<Create>(model);
+        create->setTimeUnit(Util::TimeUnit::minute);
+        create->setEntitiesPerCreation(1);  // igual EntitiesPerArrival?
+        create->setFirstCreation(0);
+        create->setMaxCreations(INFINITY);
         
         Separate* separate1 = plugins->newInstance<Separate>(model);
 //        separate1->
@@ -71,7 +73,7 @@ int Smart_DefiningResourceCapacity::main(int argc, char** argv) {
 	
         
         // connect model components to create a "workflow"
-	create1->getConnections()->insert(separate1);
+	create->getConnections()->insert(separate1);
         
         separate1->getConnections()->insert(process1);
         separate1->getConnections()->insert(process2);

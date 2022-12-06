@@ -43,6 +43,8 @@ int Smart_AutomaticStatisticsCollection::main(int argc, char** argv) {
         create->setTimeBetweenCreationsExpression("norm(8,9)");
         create->setTimeUnit(Util::TimeUnit::minute);
         create->setEntitiesPerCreation(1);  // Entities per arrival do arena?
+        create->setFirstCreation(0);
+        create->setMaxCreations(INFINITY);
         
         Process* process = plugins->newInstance<Process>(model);
 	process->getSeizeRequests()->insert(new SeizableItem(plugins->newInstance<Resource>(model)));
