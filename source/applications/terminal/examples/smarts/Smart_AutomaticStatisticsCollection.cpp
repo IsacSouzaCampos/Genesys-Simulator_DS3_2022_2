@@ -34,24 +34,34 @@ int Smart_AutomaticStatisticsCollection::main(int argc, char** argv) {
 	Simulator* genesys = new Simulator();
 	this->setDefaultTraceHandlers(genesys->getTracer());
 	this->insertFakePluginsByHand(genesys);
+//        genesys->getTracer()->setTraceLevel(TraceManager::Level::L9_mostDetailed);
 	
         // crete model
 	Model* model = genesys->getModels()->newModel();
 	PluginManager* plugins = genesys->getPlugins();
 	
-        Create* create = plugins->newInstance<Create>(model);
+        EntityType* entity1 = plugins->newInstance<EntityType>(model, "Entity_1");
+        
+        Create* create = plugins->newInstance<Create>(model, "Equipment Arrives");
+        create->setEntityType(entity1);
         create->setTimeBetweenCreationsExpression("norm(8,9)");
         create->setTimeUnit(Util::TimeUnit::minute);
         create->setEntitiesPerCreation(1);  // Entities per arrival do arena?
         create->setFirstCreation(0);
-        create->setMaxCreations(INFINITY);
+        create->setMaxCreations(std::numeric_limits<int>::infinity());
         
-        Process* process = plugins->newInstance<Process>(model);
-	process->getSeizeRequests()->insert(new SeizableItem(plugins->newInstance<Resource>(model)));
+        Resource* resource = plugins->newInstance<Resource>(model, "Processor");
+        resource->setCapacity(1);
+        resource->setCostBusyHour(5.25);
+        resource->isReportStatistics();
+        
+        Process*  process  = plugins->newInstance<Process>(model, "Equipment is Processed");
+	process->getSeizeRequests()->insert(new SeizableItem(resource));
 	process->setQueueableItem(new QueueableItem(plugins->newInstance<Queue>(model)));
         process->setDelayTimeUnit(Util::TimeUnit::hour);
 	process->setDelayExpression("tria(1,2,3)");
-        // como definir prioridade?
+        process->setPriority(1);
+//        process->
         // allocation (value added)
         
         
@@ -62,8 +72,9 @@ int Smart_AutomaticStatisticsCollection::main(int argc, char** argv) {
 	process->getConnections()->insert(dispose);
 	
         // set options, save and simulate
-	model->getSimulation()->setReplicationLength(60, Util::TimeUnit::second);
-	model->save("./models/Smart_AutomaticStatisticsCollection.gen");
+	model->getSimulation()->setReplicationLength(480, Util::TimeUnit::minute);
+	model->getSimulation()->setNumberOfReplications(1);
+        model->save("./models/Smart_AutomaticStatisticsCollection.gen");
 	model->getSimulation()->start();
         
         for(int i = 0; i < 1e9; i++);
