@@ -1,0 +1,17 @@
+# Genesys Simulation Model
+# Simulator, Model and Simulation infos
+0   Simulator  "GenESyS - GENeric and Expansible SYstem Simulator" versionNumber=220517 
+0   ModelInfo  "Model 1" version="1.0" projectTitle="" description="" analystName="" 
+0   ModelSimulation "" traceLevel=9 
+
+# Model Data Definitions
+
+# Model Components
+60  Create     "Create Entity" entityType="entitytype" maxCreations="0" timeBetweenCreationsTimeUnit=6 nexts=0 timeBetweenCreations="60" 
+61  Assign     "Assign attribute time in equal to current time variable TNOW" assignments=0 nexts=0 
+62  Decide     "Is the remaining process time less than 20?" nexts=0 
+63  Process    "Begin processing by seizing resource" nextId=4294967295 resquests=0 nexts=0 
+67  Assign     "Assign variables Procstarttime and Proctime" assignments=0 nexts=0 
+68  Process    "Begin processing delay then release resource" nextId=4294967295 resquests=0 nexts=0 
+72  Dispose    "Dispose of entity" nexts=0 
+73  Dispose    "Dispose of entity if condition not met" nexts=0 

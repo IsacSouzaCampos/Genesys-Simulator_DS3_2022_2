@@ -57,7 +57,7 @@
 #include "terminal/examples/smarts/Smart_WaitSignal.h"
 #include "terminal/examples/smarts/Smart_CppForG.h"
 // Smarts from ModelSim students 2022-2
-//#include "terminal/examples/smarts/Smart_ValueAdded.h"
+#include "terminal/examples/smarts/Smart_ValueAdded.h"
 
 
 // teachng

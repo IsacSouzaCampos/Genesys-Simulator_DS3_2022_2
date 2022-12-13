@@ -59,7 +59,7 @@ int Smart_EvaluatingConditionsBeforeEnteringQueue::main(int argc, char** argv) {
         
         Attribute* timeIn = plugins->newInstance<Attribute>(model, "Time_In");
         
-        Assign* assign1        = plugins->newInstance<Assign>(model, "Assign attribute time in equal to current time variable TNOW");
+        Assign* assign1   = plugins->newInstance<Assign>(model, "Assign attribute time in equal to current time variable TNOW");
         assign1->getAssignments()->insert(new Assignment(model, "Time_In", "TNOW"));
         
         std::string timeGoneBy        = "(TNOW - procstarttime)";

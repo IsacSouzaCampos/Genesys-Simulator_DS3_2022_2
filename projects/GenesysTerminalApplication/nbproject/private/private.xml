@@ -39,8 +39,6 @@
             <file>file:/home/rlcancian/Laboratory/Software_Lab/IA32_Architecture/GccProjects/RebornedGenESyS/Genesys-Simulator/source/kernel/simulator/Model.cpp</file>
             <file>file:/home/rlcancian/Laboratory/Software_Lab/IA32_Architecture/GccProjects/RebornedGenESyS/Genesys-Simulator/projects/GenesysTerminalApplication/main.cpp</file>
         </group>
-        <group>
-            <file>file:/home/genesys/Genesys-Simulator_DS3_2022_2/source/applications/TraitsApp.h</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

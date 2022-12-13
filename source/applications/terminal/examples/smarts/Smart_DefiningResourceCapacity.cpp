@@ -45,7 +45,7 @@ int Smart_DefiningResourceCapacity::main(int argc, char** argv) {
         create->setTimeUnit(Util::TimeUnit::minute);
         create->setEntitiesPerCreation(1);  // igual EntitiesPerArrival?
         create->setFirstCreation(0);
-        create->setMaxCreations(INFINITY);
+//        create->setMaxCreations(INFINITY);
         
         Separate* separate1 = plugins->newInstance<Separate>(model);
 //        separate1->
