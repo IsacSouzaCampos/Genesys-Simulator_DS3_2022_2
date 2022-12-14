@@ -48,7 +48,7 @@ int Smart_AutomaticStatisticsCollection::main(int argc, char** argv) {
         create->setTimeUnit(Util::TimeUnit::minute);
         create->setEntitiesPerCreation(1);  // Entities per arrival do arena?
         create->setFirstCreation(0);
-        create->setMaxCreations(std::numeric_limits<int>::infinity());
+//        create->setMaxCreations(std::numeric_limits<int>::infinity());
         
         Resource* resource = plugins->newInstance<Resource>(model, "Processor");
         resource->setCapacity(1);
