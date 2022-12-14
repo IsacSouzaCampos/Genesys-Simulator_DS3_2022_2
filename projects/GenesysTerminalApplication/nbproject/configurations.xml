@@ -64,8 +64,12 @@
               <itemPath>../../source/applications/terminal/examples/book/Book_Cap02_Example01.h</itemPath>
             </logicalFolder>
             <logicalFolder name="smarts" displayName="smarts" projectFiles="true">
+              <itemPath>../../source/applications/terminal/examples/smarts/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime.cpp</itemPath>
+              <itemPath>../../source/applications/terminal/examples/smarts/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime.h</itemPath>
               <itemPath>../../source/applications/terminal/examples/smarts/Smart_AssignWriteSeizes.cpp</itemPath>
               <itemPath>../../source/applications/terminal/examples/smarts/Smart_AssignWriteSeizes.h</itemPath>
+              <itemPath>../../source/applications/terminal/examples/smarts/Smart_AutomaticStatisticsCollection.cpp</itemPath>
+              <itemPath>../../source/applications/terminal/examples/smarts/Smart_AutomaticStatisticsCollection.h</itemPath>
               <itemPath>../../source/applications/terminal/examples/smarts/Smart_BatchSeparate.cpp</itemPath>
               <itemPath>../../source/applications/terminal/examples/smarts/Smart_BatchSeparate.h</itemPath>
               <itemPath>../../source/applications/terminal/examples/smarts/Smart_CellularAutomata1.cpp</itemPath>
@@ -74,10 +78,14 @@
               <itemPath>../../source/applications/terminal/examples/smarts/Smart_Clone.h</itemPath>
               <itemPath>../../source/applications/terminal/examples/smarts/Smart_CppForG.cpp</itemPath>
               <itemPath>../../source/applications/terminal/examples/smarts/Smart_CppForG.h</itemPath>
+              <itemPath>../../source/applications/terminal/examples/smarts/Smart_DefiningResourceCapacity.cpp</itemPath>
+              <itemPath>../../source/applications/terminal/examples/smarts/Smart_DefiningResourceCapacity.h</itemPath>
               <itemPath>../../source/applications/terminal/examples/smarts/Smart_Delay.cpp</itemPath>
               <itemPath>../../source/applications/terminal/examples/smarts/Smart_Delay.h</itemPath>
               <itemPath>../../source/applications/terminal/examples/smarts/Smart_Dummy.cpp</itemPath>
               <itemPath>../../source/applications/terminal/examples/smarts/Smart_Dummy.h</itemPath>
+              <itemPath>../../source/applications/terminal/examples/smarts/Smart_EvaluatingConditionsBeforeEnteringQueue.cpp</itemPath>
+              <itemPath>../../source/applications/terminal/examples/smarts/Smart_EvaluatingConditionsBeforeEnteringQueue.h</itemPath>
               <itemPath>../../source/applications/terminal/examples/smarts/Smart_Failures.cpp</itemPath>
               <itemPath>../../source/applications/terminal/examples/smarts/Smart_Failures.h</itemPath>
               <itemPath>../../source/applications/terminal/examples/smarts/Smart_FiniteStateMachine.cpp</itemPath>
@@ -618,12 +626,32 @@
             tool="3"
             flavor2="0">
       </item>
+      <item path="../../source/applications/terminal/examples/smarts/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../source/applications/terminal/examples/smarts/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="../../source/applications/terminal/examples/smarts/Smart_AssignWriteSeizes.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
       <item path="../../source/applications/terminal/examples/smarts/Smart_AssignWriteSeizes.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../source/applications/terminal/examples/smarts/Smart_AutomaticStatisticsCollection.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../source/applications/terminal/examples/smarts/Smart_AutomaticStatisticsCollection.h"
             ex="false"
             tool="3"
             flavor2="0">
@@ -668,6 +696,16 @@
             tool="3"
             flavor2="0">
       </item>
+      <item path="../../source/applications/terminal/examples/smarts/Smart_DefiningResourceCapacity.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../source/applications/terminal/examples/smarts/Smart_DefiningResourceCapacity.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="../../source/applications/terminal/examples/smarts/Smart_Delay.cpp"
             ex="false"
             tool="1"
@@ -684,6 +722,16 @@
             flavor2="0">
       </item>
       <item path="../../source/applications/terminal/examples/smarts/Smart_Dummy.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../source/applications/terminal/examples/smarts/Smart_EvaluatingConditionsBeforeEnteringQueue.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../source/applications/terminal/examples/smarts/Smart_EvaluatingConditionsBeforeEnteringQueue.h"
             ex="false"
             tool="3"
             flavor2="0">
@@ -2389,12 +2437,32 @@
             tool="3"
             flavor2="0">
       </item>
+      <item path="../../source/applications/terminal/examples/smarts/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../source/applications/terminal/examples/smarts/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="../../source/applications/terminal/examples/smarts/Smart_AssignWriteSeizes.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
       <item path="../../source/applications/terminal/examples/smarts/Smart_AssignWriteSeizes.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../source/applications/terminal/examples/smarts/Smart_AutomaticStatisticsCollection.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../source/applications/terminal/examples/smarts/Smart_AutomaticStatisticsCollection.h"
             ex="false"
             tool="3"
             flavor2="0">
@@ -2439,6 +2507,16 @@
             tool="3"
             flavor2="0">
       </item>
+      <item path="../../source/applications/terminal/examples/smarts/Smart_DefiningResourceCapacity.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../source/applications/terminal/examples/smarts/Smart_DefiningResourceCapacity.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="../../source/applications/terminal/examples/smarts/Smart_Delay.cpp"
             ex="false"
             tool="1"
@@ -2455,6 +2533,16 @@
             flavor2="0">
       </item>
       <item path="../../source/applications/terminal/examples/smarts/Smart_Dummy.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../source/applications/terminal/examples/smarts/Smart_EvaluatingConditionsBeforeEnteringQueue.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../source/applications/terminal/examples/smarts/Smart_EvaluatingConditionsBeforeEnteringQueue.h"
             ex="false"
             tool="3"
             flavor2="0">

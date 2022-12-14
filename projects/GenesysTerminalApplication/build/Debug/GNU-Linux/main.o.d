@@ -83,6 +83,10 @@ build/Debug/GNU-Linux/main.o: main.cpp \
  ../../source/applications/terminal/examples/smarts/Smart_EvaluatingConditionsBeforeEnteringQueue.h \
  ../../source/applications/terminal/examples/smarts/Smart_Failures.h \
  ../../source/applications/terminal/examples/smarts/Smart_FinitStateMachine.h \
+ ../../source/applications/terminal/examples/smarts/Smart_Clone.h \
+ ../../source/applications/terminal/examples/smarts/Smart_CppForG.h \
+ ../../source/applications/terminal/examples/smarts/Smart_FiniteStateMachine.h \
+ ../../source/applications/terminal/examples/smarts/Smart_HoldSearchRemove.h \
  ../../source/applications/terminal/examples/smarts/Smart_ModelInfoModelSimulation.h \
  ../../source/applications/terminal/examples/smarts/Smart_ODE.h \
  ../../source/applications/terminal/examples/smarts/Smart_OnEvent.h \
@@ -98,7 +102,7 @@ build/Debug/GNU-Linux/main.o: main.cpp \
  ../../source/applications/terminal/examples/smarts/Smart_Sequence.h \
  ../../source/applications/terminal/examples/smarts/Smart_WaitScanCondition.h \
  ../../source/applications/terminal/examples/smarts/Smart_WaitSignal.h \
- ../../source/applications/terminal/examples/smarts/Smart_CppForG.h \
+ ../../source/applications/terminal/examples/smarts/Smart_SimulationControlResponse.h \
  ../../source/applications/terminal/examples/teaching/AnElectronicAssemblyAndTestSystem.h \
  ../../source/applications/terminal/examples/teaching/../../../BaseGenesysTerminalApplication.h \
  ../../source/applications/terminal/examples/teaching/OperatingSystem02.h \
@@ -187,6 +191,10 @@ build/Debug/GNU-Linux/main.o: main.cpp \
 ../../source/applications/terminal/examples/smarts/Smart_EvaluatingConditionsBeforeEnteringQueue.h:
 ../../source/applications/terminal/examples/smarts/Smart_Failures.h:
 ../../source/applications/terminal/examples/smarts/Smart_FinitStateMachine.h:
+../../source/applications/terminal/examples/smarts/Smart_Clone.h:
+../../source/applications/terminal/examples/smarts/Smart_CppForG.h:
+../../source/applications/terminal/examples/smarts/Smart_FiniteStateMachine.h:
+../../source/applications/terminal/examples/smarts/Smart_HoldSearchRemove.h:
 ../../source/applications/terminal/examples/smarts/Smart_ModelInfoModelSimulation.h:
 ../../source/applications/terminal/examples/smarts/Smart_ODE.h:
 ../../source/applications/terminal/examples/smarts/Smart_OnEvent.h:
@@ -202,7 +210,7 @@ build/Debug/GNU-Linux/main.o: main.cpp \
 ../../source/applications/terminal/examples/smarts/Smart_Sequence.h:
 ../../source/applications/terminal/examples/smarts/Smart_WaitScanCondition.h:
 ../../source/applications/terminal/examples/smarts/Smart_WaitSignal.h:
-../../source/applications/terminal/examples/smarts/Smart_CppForG.h:
+../../source/applications/terminal/examples/smarts/Smart_SimulationControlResponse.h:
 ../../source/applications/terminal/examples/teaching/AnElectronicAssemblyAndTestSystem.h:
 ../../source/applications/terminal/examples/teaching/../../../BaseGenesysTerminalApplication.h:
 ../../source/applications/terminal/examples/teaching/OperatingSystem02.h:

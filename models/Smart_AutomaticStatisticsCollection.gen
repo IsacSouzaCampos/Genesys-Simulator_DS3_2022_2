@@ -5,11 +5,11 @@
 0   ModelSimulation "" traceLevel=9 replicationLength=480.000000 numberOfReplications=1000 replicationLengthTimeUnit=6 
 
 # Model Data Definitions
-60  EntityType "Entity_1" 
-62  Resource   "Processor" costBusyHour=5.250000 
-67  Queue      "Queue_1" 
+61  EntityType "Entity_1" 
+63  Resource   "Processor" costBusyHour=5.250000 
+68  Queue      "Queue_1" 
 
 # Model Components
-61  Create     "Equipment Arrives" entityType="Entity_1" timeBetweenCreationsTimeUnit=6 nextId=63 timeBetweenCreations="norm(8,9)" 
-63  Process    "Equipment is Processed" delayExpression="tria(1,2,3)" delayExpressionTimeUnit=7 priority==1 queueable="Queue_1" nextId=68 requestSeizable[0]="Processor" 
-68  Dispose    "Dispose_1" nexts=0 
+62  Create     "Equipment Arrives" entityType="Entity_1" timeBetweenCreationsTimeUnit=6 nextId=64 timeBetweenCreations="norm(8,9)" 
+64  Process    "Equipment is Processed" delayExpression="tria(1,2,3)" delayExpressionTimeUnit=7 priority==1 queueable="Queue_1" nextId=69 requestSeizable[0]="Processor" 
+69  Dispose    "Dispose_1" nexts=0 

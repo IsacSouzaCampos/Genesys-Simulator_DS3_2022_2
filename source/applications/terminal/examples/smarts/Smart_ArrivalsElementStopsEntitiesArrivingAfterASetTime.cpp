@@ -52,4 +52,3 @@ int Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime::main(int argc, char
 	delete genesys;
 	return 0;
 };
-

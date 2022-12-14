@@ -38,13 +38,17 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/6bf258f7/BaseGenesysTerminalApplication.o \
 	${OBJECTDIR}/_ext/acd0b333/GenesysShell.o \
 	${OBJECTDIR}/_ext/d120e6b4/Book_Cap02_Example01.o \
+	${OBJECTDIR}/_ext/296208d5/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime.o \
 	${OBJECTDIR}/_ext/296208d5/Smart_AssignWriteSeizes.o \
+	${OBJECTDIR}/_ext/296208d5/Smart_AutomaticStatisticsCollection.o \
 	${OBJECTDIR}/_ext/296208d5/Smart_BatchSeparate.o \
 	${OBJECTDIR}/_ext/296208d5/Smart_CellularAutomata1.o \
 	${OBJECTDIR}/_ext/296208d5/Smart_Clone.o \
 	${OBJECTDIR}/_ext/296208d5/Smart_CppForG.o \
+	${OBJECTDIR}/_ext/296208d5/Smart_DefiningResourceCapacity.o \
 	${OBJECTDIR}/_ext/296208d5/Smart_Delay.o \
 	${OBJECTDIR}/_ext/296208d5/Smart_Dummy.o \
+	${OBJECTDIR}/_ext/296208d5/Smart_EvaluatingConditionsBeforeEnteringQueue.o \
 	${OBJECTDIR}/_ext/296208d5/Smart_Failures.o \
 	${OBJECTDIR}/_ext/296208d5/Smart_FiniteStateMachine.o \
 	${OBJECTDIR}/_ext/296208d5/Smart_HoldSearchRemove.o \
@@ -243,10 +247,20 @@ ${OBJECTDIR}/_ext/d120e6b4/Book_Cap02_Example01.o: ../../source/applications/ter
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -O -Wall -I../../source/gtest -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/d120e6b4/Book_Cap02_Example01.o ../../source/applications/terminal/examples/book/Book_Cap02_Example01.cpp
 
+${OBJECTDIR}/_ext/296208d5/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime.o: ../../source/applications/terminal/examples/smarts/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/296208d5
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -O -Wall -I../../source/gtest -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/296208d5/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime.o ../../source/applications/terminal/examples/smarts/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime.cpp
+
 ${OBJECTDIR}/_ext/296208d5/Smart_AssignWriteSeizes.o: ../../source/applications/terminal/examples/smarts/Smart_AssignWriteSeizes.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/296208d5
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -O -Wall -I../../source/gtest -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/296208d5/Smart_AssignWriteSeizes.o ../../source/applications/terminal/examples/smarts/Smart_AssignWriteSeizes.cpp
+
+${OBJECTDIR}/_ext/296208d5/Smart_AutomaticStatisticsCollection.o: ../../source/applications/terminal/examples/smarts/Smart_AutomaticStatisticsCollection.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/296208d5
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -O -Wall -I../../source/gtest -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/296208d5/Smart_AutomaticStatisticsCollection.o ../../source/applications/terminal/examples/smarts/Smart_AutomaticStatisticsCollection.cpp
 
 ${OBJECTDIR}/_ext/296208d5/Smart_BatchSeparate.o: ../../source/applications/terminal/examples/smarts/Smart_BatchSeparate.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/296208d5
@@ -268,6 +282,11 @@ ${OBJECTDIR}/_ext/296208d5/Smart_CppForG.o: ../../source/applications/terminal/e
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -O -Wall -I../../source/gtest -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/296208d5/Smart_CppForG.o ../../source/applications/terminal/examples/smarts/Smart_CppForG.cpp
 
+${OBJECTDIR}/_ext/296208d5/Smart_DefiningResourceCapacity.o: ../../source/applications/terminal/examples/smarts/Smart_DefiningResourceCapacity.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/296208d5
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -O -Wall -I../../source/gtest -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/296208d5/Smart_DefiningResourceCapacity.o ../../source/applications/terminal/examples/smarts/Smart_DefiningResourceCapacity.cpp
+
 ${OBJECTDIR}/_ext/296208d5/Smart_Delay.o: ../../source/applications/terminal/examples/smarts/Smart_Delay.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/296208d5
 	${RM} "$@.d"
@@ -277,6 +296,11 @@ ${OBJECTDIR}/_ext/296208d5/Smart_Dummy.o: ../../source/applications/terminal/exa
 	${MKDIR} -p ${OBJECTDIR}/_ext/296208d5
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -O -Wall -I../../source/gtest -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/296208d5/Smart_Dummy.o ../../source/applications/terminal/examples/smarts/Smart_Dummy.cpp
+
+${OBJECTDIR}/_ext/296208d5/Smart_EvaluatingConditionsBeforeEnteringQueue.o: ../../source/applications/terminal/examples/smarts/Smart_EvaluatingConditionsBeforeEnteringQueue.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/296208d5
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -O -Wall -I../../source/gtest -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/296208d5/Smart_EvaluatingConditionsBeforeEnteringQueue.o ../../source/applications/terminal/examples/smarts/Smart_EvaluatingConditionsBeforeEnteringQueue.cpp
 
 ${OBJECTDIR}/_ext/296208d5/Smart_Failures.o: ../../source/applications/terminal/examples/smarts/Smart_Failures.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/296208d5
@@ -1071,6 +1095,19 @@ ${OBJECTDIR}/_ext/d120e6b4/Book_Cap02_Example01_nomain.o: ${OBJECTDIR}/_ext/d120
 	    ${CP} ${OBJECTDIR}/_ext/d120e6b4/Book_Cap02_Example01.o ${OBJECTDIR}/_ext/d120e6b4/Book_Cap02_Example01_nomain.o;\
 	fi
 
+${OBJECTDIR}/_ext/296208d5/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime_nomain.o: ${OBJECTDIR}/_ext/296208d5/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime.o ../../source/applications/terminal/examples/smarts/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/296208d5
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/_ext/296208d5/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -O -Wall -I../../source/gtest -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/296208d5/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime_nomain.o ../../source/applications/terminal/examples/smarts/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/_ext/296208d5/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime.o ${OBJECTDIR}/_ext/296208d5/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime_nomain.o;\
+	fi
+
 ${OBJECTDIR}/_ext/296208d5/Smart_AssignWriteSeizes_nomain.o: ${OBJECTDIR}/_ext/296208d5/Smart_AssignWriteSeizes.o ../../source/applications/terminal/examples/smarts/Smart_AssignWriteSeizes.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/296208d5
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/_ext/296208d5/Smart_AssignWriteSeizes.o`; \
@@ -1082,6 +1119,19 @@ ${OBJECTDIR}/_ext/296208d5/Smart_AssignWriteSeizes_nomain.o: ${OBJECTDIR}/_ext/2
 	    $(COMPILE.cc) -g -O -Wall -I../../source/gtest -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/296208d5/Smart_AssignWriteSeizes_nomain.o ../../source/applications/terminal/examples/smarts/Smart_AssignWriteSeizes.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/_ext/296208d5/Smart_AssignWriteSeizes.o ${OBJECTDIR}/_ext/296208d5/Smart_AssignWriteSeizes_nomain.o;\
+	fi
+
+${OBJECTDIR}/_ext/296208d5/Smart_AutomaticStatisticsCollection_nomain.o: ${OBJECTDIR}/_ext/296208d5/Smart_AutomaticStatisticsCollection.o ../../source/applications/terminal/examples/smarts/Smart_AutomaticStatisticsCollection.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/296208d5
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/_ext/296208d5/Smart_AutomaticStatisticsCollection.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -O -Wall -I../../source/gtest -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/296208d5/Smart_AutomaticStatisticsCollection_nomain.o ../../source/applications/terminal/examples/smarts/Smart_AutomaticStatisticsCollection.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/_ext/296208d5/Smart_AutomaticStatisticsCollection.o ${OBJECTDIR}/_ext/296208d5/Smart_AutomaticStatisticsCollection_nomain.o;\
 	fi
 
 ${OBJECTDIR}/_ext/296208d5/Smart_BatchSeparate_nomain.o: ${OBJECTDIR}/_ext/296208d5/Smart_BatchSeparate.o ../../source/applications/terminal/examples/smarts/Smart_BatchSeparate.cpp 
@@ -1136,6 +1186,19 @@ ${OBJECTDIR}/_ext/296208d5/Smart_CppForG_nomain.o: ${OBJECTDIR}/_ext/296208d5/Sm
 	    ${CP} ${OBJECTDIR}/_ext/296208d5/Smart_CppForG.o ${OBJECTDIR}/_ext/296208d5/Smart_CppForG_nomain.o;\
 	fi
 
+${OBJECTDIR}/_ext/296208d5/Smart_DefiningResourceCapacity_nomain.o: ${OBJECTDIR}/_ext/296208d5/Smart_DefiningResourceCapacity.o ../../source/applications/terminal/examples/smarts/Smart_DefiningResourceCapacity.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/296208d5
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/_ext/296208d5/Smart_DefiningResourceCapacity.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -O -Wall -I../../source/gtest -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/296208d5/Smart_DefiningResourceCapacity_nomain.o ../../source/applications/terminal/examples/smarts/Smart_DefiningResourceCapacity.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/_ext/296208d5/Smart_DefiningResourceCapacity.o ${OBJECTDIR}/_ext/296208d5/Smart_DefiningResourceCapacity_nomain.o;\
+	fi
+
 ${OBJECTDIR}/_ext/296208d5/Smart_Delay_nomain.o: ${OBJECTDIR}/_ext/296208d5/Smart_Delay.o ../../source/applications/terminal/examples/smarts/Smart_Delay.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/296208d5
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/_ext/296208d5/Smart_Delay.o`; \
@@ -1160,6 +1223,19 @@ ${OBJECTDIR}/_ext/296208d5/Smart_Dummy_nomain.o: ${OBJECTDIR}/_ext/296208d5/Smar
 	    $(COMPILE.cc) -g -O -Wall -I../../source/gtest -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/296208d5/Smart_Dummy_nomain.o ../../source/applications/terminal/examples/smarts/Smart_Dummy.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/_ext/296208d5/Smart_Dummy.o ${OBJECTDIR}/_ext/296208d5/Smart_Dummy_nomain.o;\
+	fi
+
+${OBJECTDIR}/_ext/296208d5/Smart_EvaluatingConditionsBeforeEnteringQueue_nomain.o: ${OBJECTDIR}/_ext/296208d5/Smart_EvaluatingConditionsBeforeEnteringQueue.o ../../source/applications/terminal/examples/smarts/Smart_EvaluatingConditionsBeforeEnteringQueue.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/296208d5
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/_ext/296208d5/Smart_EvaluatingConditionsBeforeEnteringQueue.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -O -Wall -I../../source/gtest -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/296208d5/Smart_EvaluatingConditionsBeforeEnteringQueue_nomain.o ../../source/applications/terminal/examples/smarts/Smart_EvaluatingConditionsBeforeEnteringQueue.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/_ext/296208d5/Smart_EvaluatingConditionsBeforeEnteringQueue.o ${OBJECTDIR}/_ext/296208d5/Smart_EvaluatingConditionsBeforeEnteringQueue_nomain.o;\
 	fi
 
 ${OBJECTDIR}/_ext/296208d5/Smart_Failures_nomain.o: ${OBJECTDIR}/_ext/296208d5/Smart_Failures.o ../../source/applications/terminal/examples/smarts/Smart_Failures.cpp 

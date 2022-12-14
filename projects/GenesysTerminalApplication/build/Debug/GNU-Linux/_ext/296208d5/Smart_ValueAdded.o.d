@@ -58,13 +58,51 @@ build/Debug/GNU-Linux/_ext/296208d5/Smart_ValueAdded.o: \
  ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/ModelDataManager.h \
  ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/Plugin.h \
  ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/Plugin.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../plugins/data/Formula.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../plugins/data/../../kernel/simulator/ModelDataDefinition.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../plugins/data/../../kernel/simulator/ModelDataManager.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../plugins/data/../../kernel/simulator/Plugin.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../plugins/data/Schedule.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/Dispose.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/SinkModelComponent.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/ModelComponent.h \
  ../../source/applications/terminal/examples/smarts/../../../../plugins/components/DummyComponent.h \
  ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/ModelComponent.h \
  ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/DummyElement.h \
  ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/ModelDataDefinition.h \
- ../../source/applications/terminal/examples/smarts/../../../../plugins/components/Dispose.h \
- ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/SinkModelComponent.h \
- ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/ModelComponent.h
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/Assign.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/Model.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/Attribute.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/AssignmentItem.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/Model.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/Variable.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/ModelDataManager.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/Plugin.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/Process.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/Seize.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/Resource.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/StatisticsCollector.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/Counter.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/Failure.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/PluginInformation.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/Queue.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/Entity.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/ModelComponent.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/SeizableItem.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/Set.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/ParserChangesInformation.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/EntityType.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/ModelDataManager.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/QueueableItem.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/Delay.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/Release.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/QueueableItem.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/Seize.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/Delay.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/components/Release.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/data/Queue.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/data/Resource.h \
+ ../../source/applications/terminal/examples/smarts/../../../../plugins/data/Variable.h
 ../../source/applications/terminal/examples/smarts/Smart_ValueAdded.h:
 ../../source/applications/terminal/examples/smarts/../../../BaseGenesysTerminalApplication.h:
 ../../source/applications/terminal/examples/smarts/../../../GenesysApplication_if.h:
@@ -123,10 +161,48 @@ build/Debug/GNU-Linux/_ext/296208d5/Smart_ValueAdded.o: \
 ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/ModelDataManager.h:
 ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/Plugin.h:
 ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/Plugin.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../plugins/data/Formula.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../plugins/data/../../kernel/simulator/ModelDataDefinition.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../plugins/data/../../kernel/simulator/ModelDataManager.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../plugins/data/../../kernel/simulator/Plugin.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../plugins/data/Schedule.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/Dispose.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/SinkModelComponent.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/ModelComponent.h:
 ../../source/applications/terminal/examples/smarts/../../../../plugins/components/DummyComponent.h:
 ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/ModelComponent.h:
 ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/DummyElement.h:
 ../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/ModelDataDefinition.h:
-../../source/applications/terminal/examples/smarts/../../../../plugins/components/Dispose.h:
-../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/SinkModelComponent.h:
-../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/ModelComponent.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/Assign.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/Model.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/Attribute.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/AssignmentItem.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/Model.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/Variable.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/ModelDataManager.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/Plugin.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/Process.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/Seize.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/Resource.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/StatisticsCollector.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/Counter.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/Failure.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/PluginInformation.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/Queue.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/Entity.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/ModelComponent.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/SeizableItem.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/Set.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/ParserChangesInformation.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../data/../../kernel/simulator/EntityType.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/../../kernel/simulator/ModelDataManager.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/QueueableItem.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/Delay.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/Release.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/QueueableItem.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/Seize.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/Delay.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/components/Release.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/data/Queue.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/data/Resource.h:
+../../source/applications/terminal/examples/smarts/../../../../plugins/data/Variable.h:

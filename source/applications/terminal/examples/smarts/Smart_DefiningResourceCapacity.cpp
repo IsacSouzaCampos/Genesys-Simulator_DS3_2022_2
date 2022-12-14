@@ -90,4 +90,3 @@ int Smart_DefiningResourceCapacity::main(int argc, char** argv) {
 	delete genesys;
 	return 0;
 };
-

@@ -99,4 +99,3 @@ int Smart_EvaluatingConditionsBeforeEnteringQueue::main(int argc, char** argv) {
 	delete genesys;
 	return 0;
 };
-
