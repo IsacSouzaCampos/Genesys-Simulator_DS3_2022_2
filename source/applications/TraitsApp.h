@@ -40,6 +40,13 @@
 
 #include "terminal/examples/smarts/Smart_Failures.h"
 #include "terminal/examples/smarts/Smart_FinitStateMachine.h"
+#include "terminal/examples/smarts/Smart_Clone.h"
+#include "terminal/examples/smarts/Smart_CppForG.h"
+#include "terminal/examples/smarts/Smart_Delay.h"
+#include "terminal/examples/smarts/Smart_Dummy.h"
+#include "terminal/examples/smarts/Smart_Failures.h"
+#include "terminal/examples/smarts/Smart_FiniteStateMachine.h"
+#include "terminal/examples/smarts/Smart_HoldSearchRemove.h"
 #include "terminal/examples/smarts/Smart_ModelInfoModelSimulation.h"
 #include "terminal/examples/smarts/Smart_ODE.h"
 #include "terminal/examples/smarts/Smart_OnEvent.h"
@@ -56,6 +63,9 @@
 #include "terminal/examples/smarts/Smart_WaitScanCondition.h"
 #include "terminal/examples/smarts/Smart_WaitSignal.h"
 #include "terminal/examples/smarts/Smart_CppForG.h"
+#include "terminal/examples/smarts/Smart_SimulationControlResponse.h"
+#include "terminal/examples/smarts/Smart_WaitScanCondition.h"
+#include "terminal/examples/smarts/Smart_WaitSignal.h"
 // Smarts from ModelSim students 2022-2
 //#include "terminal/examples/smarts/Smart_ValueAdded.h"
 
@@ -94,6 +104,13 @@ template <> struct TraitsApp<GenesysApplication_if> {
         
 	//typedef Smart_Failures Application;
 	//typedef Smart_FinitStateMachine Application;
+	//typedef Smart_Clone Application;
+	//typedef Smart_CppForG Application;
+	//typedef Smart_Delay Application;
+	//typedef Smart_Dummy Application;
+	//typedef Smart_Failures Application;
+	//typedef Smart_FiniteStateMachine Application;
+	//typedef Smart_HoldSearchRemove Application;
 	//typedef Smart_ModelInfoModelSimulation Application;
 	//typedef Smart_ODE Application;
 	//typedef Smart_OnEvent Application;
@@ -107,6 +124,7 @@ template <> struct TraitsApp<GenesysApplication_if> {
 	//typedef Smart_SeizeDelayReleaseNoDataDefs Application;
 	//typedef Smart_SeizeDelayReleaseMany Application;
 	//typedef Smart_Sequence Application;
+	//typedef Smart_SimulationControlResponse Application;
 	//typedef Smart_ValueAdded Application;
 	//typedef Smart_WaitScanCondition Application;
 	//typedef Smart_WaitSignal Application;

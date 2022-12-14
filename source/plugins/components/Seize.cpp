@@ -71,11 +71,11 @@ unsigned short Seize::getPriority() const {
 	return _priority;
 }
 
-void Seize::setAllocationType(unsigned int _allocationType) {
+void Seize::setAllocationType(Util::AllocationType _allocationType) {
 	this->_allocationType = _allocationType;
 }
 
-unsigned int Seize::getAllocationType() const {
+Util::AllocationType Seize::getAllocationType() const {
 	return _allocationType;
 }
 
@@ -152,6 +152,7 @@ void Seize::_onDispatchEvent(Entity* entity, unsigned int inputPortNumber) {
 			_parentModel->getTracer()->traceSimulation(this, _parentModel->getSimulation()->getSimulatedTime(), entity, this, "Entity starts to wait for resource in queue \"" + queue->getName() + "\" with " + std::to_string(queue->size()) + " elements");
 			return;
 		} else { // alocate the resource
+			entity->setAttributeValue("Entity.Allocation." + resource->getName(), static_cast<int> (this->_allocationType), true);
 			_parentModel->getTracer()->traceSimulation(this, _parentModel->getSimulation()->getSimulatedTime(), entity, this, entity->getName() + " seizes " + std::to_string(quantity) + " elements of resource \"" + resource->getName() + "\" (capacity:" + std::to_string(resource->getCapacity()) + ", numberbusy:" + std::to_string(resource->getNumberBusy()) + ")");
 		}
 	}
@@ -161,7 +162,7 @@ void Seize::_onDispatchEvent(Entity* entity, unsigned int inputPortNumber) {
 bool Seize::_loadInstance(PersistenceRecord *fields) {
 	bool res = ModelComponent::_loadInstance(fields);
 	if (res) {
-		this->_allocationType = fields->loadField("allocationType", DEFAULT.allocationType);
+		this->_allocationType = static_cast<Util::AllocationType> (fields->loadField("allocationType", static_cast<int> (DEFAULT.allocationType)));
 		this->_priority = fields->loadField("priority", DEFAULT.priority);
 		this->_saveAttribute = fields->loadField("saveAttribute", DEFAULT.saveAttribute);
 		_queueableItem = new QueueableItem(nullptr);
@@ -180,7 +181,7 @@ bool Seize::_loadInstance(PersistenceRecord *fields) {
 
 void Seize::_saveInstance(PersistenceRecord *fields, bool saveDefaultValues) {
 	ModelComponent::_saveInstance(fields, saveDefaultValues);
-	fields->saveField("allocationType", _allocationType, DEFAULT.allocationType, saveDefaultValues);
+	fields->saveField("allocationType", static_cast<int> (_allocationType), static_cast<int> (DEFAULT.allocationType), saveDefaultValues);
 	fields->saveField("priority=", _priority, DEFAULT.priority, saveDefaultValues);
 	fields->saveField("saveAttribute=", _saveAttribute, DEFAULT.saveAttribute, saveDefaultValues);
 	if (_queueableItem != nullptr) {
@@ -206,6 +207,7 @@ void Seize::_initBetweenReplications() {
 }
 
 void Seize::_createInternalAndAttachedData() {
+	//_attachedAttributesInsert({"Entity.Allocation"});
 	int i = 0;
 	for (SeizableItem* seizable : *_seizeRequests->list()) {
 		if (seizable->getSeizableType() == SeizableItem::SeizableType::RESOURCE) {
@@ -214,7 +216,7 @@ void Seize::_createInternalAndAttachedData() {
 				resource = _parentModel->getParentSimulator()->getPlugins()->newInstance<Resource>(_parentModel);
 				seizable->setResource(resource);
 			}
-			_attachedDataInsert("SeizableItem" + strIndex(i), resource);
+			_attachedDataInsert("SeizableItem" + Util::StrIndex(i), resource);
 			Resource::ResourceEventHandler handler = Resource::SetResourceEventHandler<Seize>(&Seize::_handlerForResourceEvent, this);
 			resource->addReleaseResourceEventHandler(handler, this, _priority);
 		} else if (seizable->getSeizableType() == SeizableItem::SeizableType::SET) {
@@ -222,7 +224,7 @@ void Seize::_createInternalAndAttachedData() {
 			if (set == nullptr && _parentModel->isAutomaticallyCreatesModelDataDefinitions()) {
 				set = _parentModel->getParentSimulator()->getPlugins()->newInstance<Set>(_parentModel);
 			}
-			_attachedDataInsert("SeizableItem" + strIndex(i), set);
+			_attachedDataInsert("SeizableItem" + Util::StrIndex(i), set);
 			Resource* rec;
 			for (ModelDataDefinition* datum : *seizable->getSet()->getElementSet()->list()) {
 				rec = static_cast<Resource*> (datum);
@@ -355,22 +357,68 @@ Resource* Seize::_getResourceFromSeizableItem(SeizableItem* seizable, Entity* en
 		SeizableItem::SelectionRule rule = seizable->getSelectionRule();
 		Set* set = seizable->getSet();
 		unsigned int index = 0;
+		double value, bestValue;
+		unsigned int bestIndex;
 		switch (rule) {
 			case SeizableItem::SelectionRule::CYCLICAL:
 				index = (seizable->getLastMemberSeized() + 1) % _seizeRequests->list()->size();
 				break;
 			case SeizableItem::SelectionRule::LARGESTREMAININGCAPACITY:
-				// @TODO
+				unsigned int bestIndex;
+				index = 0;
+				bestValue = std::numeric_limits<double>::min();
+				for (ModelDataDefinition* dd : *seizable->getSet()->getElementSet()->list()) {
+					resource = static_cast<Resource*> (dd);
+					value = resource->getCapacity() - resource->getNumberBusy();
+					if (value > bestValue) {
+						bestValue = value;
+						bestIndex = index;
+					}
+					index++;
+				}
+				index = bestIndex;
 				break;
 			case SeizableItem::SelectionRule::RANDOM:
 				// @TODO: RANDOM IS REALLY A PROBLEM!!! NOW IT MAY CAUSE AN ERROR (DEQUEUE AN ENTITY BECAUSE IT CAN SEIZE ALL REQUESTS, BUT ANOTHER RANDOM REQUEST MY BE SELECTED AFTER, IT IT MAY BE BUSY
 				index = std::trunc(rand() * _seizeRequests->list()->size());
 				break;
 			case SeizableItem::SelectionRule::SMALLESTNUMBERBUSY:
-				// @TODO
+				bestValue = std::numeric_limits<double>::max();
+				index = 0;
+				for (ModelDataDefinition* dd : *seizable->getSet()->getElementSet()->list()) {
+					resource = static_cast<Resource*> (dd);
+					value = resource->getNumberBusy();
+					if (value < bestValue) {
+						bestValue = value;
+						bestIndex = index;
+					}
+					index++;
+				}
+				index = bestIndex;
 				break;
 			case SeizableItem::SelectionRule::SPECIFICMEMBER:
 				index = _parentModel->parseExpression(seizable->getIndex());
+				break;
+			case SeizableItem::SelectionRule::PREFEREDORDER:
+				bestValue = 0;
+				index = 0;
+				if (seizable->getLastPreferedOrder() == seizable->getSet()->getElementSet()->size()) {
+					seizable->setLastPreferedOrder(1);
+				} else {
+					seizable->setLastPreferedOrder(seizable->getLastPreferedOrder()+1);
+				}
+				unsigned int quantity = _parentModel->parseExpression(seizable->getQuantityExpression());
+				for (ModelDataDefinition* dd : *seizable->getSet()->getElementSet()->list()) {
+					resource = static_cast<Resource*> (dd);
+					if (resource->getCapacity() - resource->getNumberBusy() >= quantity) { // resource "avaliable"
+						bestValue++;
+						if (bestValue==seizable->getLastPreferedOrder()) {
+							bestIndex = index;
+						}
+					}
+					index++;
+				}
+				index = bestIndex;
 				break;
 		}
 		if (_saveAttribute != "") {

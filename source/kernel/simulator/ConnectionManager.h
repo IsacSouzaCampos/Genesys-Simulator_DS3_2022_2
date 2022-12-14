@@ -25,6 +25,7 @@ class ModelComponent;
 //typedef unsigned int ConnectionPort; 
 struct ConnectionChannel { /*< actually a port is only a uint, but it could be more complex, including type, presence or absence of data, etc */
 	unsigned int portNumber = 0;
+	std::string portDescription = "";
 };
 
 

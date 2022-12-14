@@ -5,7 +5,7 @@
  */
 
 /* 
- * File:   Smart_ValueAdded.h
+ * File:   Smart_Dummy.h
  * Author: rlcancian
  *
  * Created on 3 de Setembro de 2019, 18:34

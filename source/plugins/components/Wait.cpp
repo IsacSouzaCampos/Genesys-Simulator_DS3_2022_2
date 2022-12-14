@@ -59,6 +59,15 @@ Wait::WaitType Wait::getWaitType() const {
 	return _waitType;
 }
 
+Queue* Wait::getQueue() const {
+	return _queue;
+}
+
+void Wait::setQueue(Queue* queue) {
+	_queue = queue;
+}
+
+
 //public static
 
 ModelComponent* Wait::LoadInstance(Model* model, PersistenceRecord *fields) {
@@ -126,8 +135,8 @@ void Wait::_createInternalAndAttachedData() {
 	PluginManager* pm = _parentModel->getParentSimulator()->getPlugins();
 	if (_queue == nullptr) {
 		_queue = pm->newInstance<Queue>(_parentModel, getName() + ".Queue");
-		_internalDataInsert("Queue", _queue);
 	}
+	_internalDataInsert("Queue", _queue);
 	//attached
 	if (_waitType == Wait::WaitType::WaitForSignal) {
 		if (_signalData == nullptr) {

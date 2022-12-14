@@ -39,6 +39,10 @@ std::string Event::show() {
 	return message;
 }
 
+void Event::setEntity(Entity* _entity) {
+	this->_entity = _entity;
+}
+
 unsigned int Event::getComponentinputPortNumber() const {
 	return _componentinputPortNumber;
 }

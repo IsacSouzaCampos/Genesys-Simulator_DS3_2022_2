@@ -101,6 +101,14 @@ Label* Route::getLabel() const {
 	return _label;
 }
 
+void Route::setStationExpression(std::string _stationExpression) {
+	this->_stationExpression = _stationExpression;
+}
+
+std::string Route::getStationExpression() const {
+	return _stationExpression;
+}
+
 void Route::_onDispatchEvent(Entity* entity, unsigned int inputPortNumber) {
 	Station* destinyStation = _station;
 	Label* destinyLabel = _label;
@@ -120,14 +128,25 @@ void Route::_onDispatchEvent(Entity* entity, unsigned int inputPortNumber) {
 			_parentModel->parseExpression(assignment->getDestination() + "=" + assignment->getExpression());
 		}
 		entity->setAttributeValue("Entity.SequenceStep", step + 1.0);
+	} else if (_routeDestinationType == Route::DestinationType::Station && _stationExpression != "") {
+		Util::identification stationID = _parentModel->parseExpression(_stationExpression);
+		destinyStation = dynamic_cast<Station*> (_parentModel->getDataManager()->getDataDefinition(Util::TypeOf<Station>(), stationID));
+		if (destinyStation != nullptr) {
+			if (destinyStation->getEnterIntoStationComponent() == nullptr) {
+				_parentModel->getTracer()->traceSimulation(this, "Evaluation of StationExpression \"" + _stationExpression + "\"= " + std::to_string(stationID) + " is Station \"" + destinyStation->getName() + "\", which has no Enter component to it. Impossible to route.", TraceManager::Level::L1_errorFatal);
+			}
+		} else {
+			_parentModel->getTracer()->traceSimulation(this, "Evaluation of StationExpression \"" + _stationExpression + "\"= " + std::to_string(stationID) + " is not a Station Id. Impossible to route.", TraceManager::Level::L1_errorFatal);
+		}
 	}
 	if (_reportStatistics)
 		_numberIn->incCountValue();
 	// adds the route time to the TransferTime statistics / attribute related to the Entitys
 	double routeTime = _parentModel->parseExpression(_routeTimeExpression) * Util::TimeUnitConvert(_routeTimeTimeUnit, _parentModel->getSimulation()->getReplicationBaseTimeUnit());
-	if (entity->getEntityType()->isReportStatistics())
+	if (entity->getEntityType()->isReportStatistics()) {
 		entity->getEntityType()->addGetStatisticsCollector(entity->getEntityTypeName() + ".TransferTime")->getStatistics()->getCollector()->addValue(routeTime);
-	entity->setAttributeValue("Entity.TotalTransferTime", entity->getAttributeValue("Entity.TotalTransferTime") + routeTime);
+		entity->setAttributeValue("Entity.TotalTransferTime", entity->getAttributeValue("Entity.TotalTransferTime") + routeTime, true);
+	}
 	if (routeTime > 0.0) {
 		// calculates when this Entity will reach the end of this route and schedule this Event
 		double routeEndTime = _parentModel->getSimulation()->getSimulatedTime() + routeTime;
@@ -215,7 +234,7 @@ void Route::_createInternalAndAttachedData() {
 	}
 	_attachedAttributesInsert({"Entity.TotalTransferTime", "Entity.Station", "Entity.Sequence", "Entity.SequenceStep"});
 	if (_parentModel->isAutomaticallyCreatesModelDataDefinitions()) {
-		if (_station == nullptr && this->_routeDestinationType == Route::DestinationType::Station) {
+		if (_station == nullptr && this->_routeDestinationType == Route::DestinationType::Station && this->_stationExpression == "") {
 			_station = _parentModel->getParentSimulator()->getPlugins()->newInstance<Station>(_parentModel);
 		}
 		if (_label == nullptr && this->_routeDestinationType == Route::DestinationType::Label) {
@@ -236,11 +255,15 @@ bool Route::_check(std::string* errorMessage) {
 	bool resultAll = true;
 	resultAll &= _parentModel->checkExpression(_routeTimeExpression, "Route time expression", errorMessage);
 	if (this->_routeDestinationType == Route::DestinationType::Station) {
-		resultAll &= _parentModel->getDataManager()->check(Util::TypeOf<Station>(), _station, "Station", errorMessage);
-		if (resultAll) {
-			resultAll &= _station->getEnterIntoStationComponent() != nullptr;
-			if (!resultAll) {
-				errorMessage->append("Station has no component to enter into it");
+		if (this->_stationExpression != "") {
+			resultAll &= _parentModel->checkExpression(_stationExpression, "Station Expression", errorMessage);
+		} else {
+			resultAll &= _parentModel->getDataManager()->check(Util::TypeOf<Station>(), _station, "Station", errorMessage);
+			if (resultAll) {
+				resultAll &= _station->getEnterIntoStationComponent() != nullptr;
+				if (!resultAll) {
+					errorMessage->append("Station has no component to enter into it");
+				}
 			}
 		}
 	}
@@ -249,7 +272,7 @@ bool Route::_check(std::string* errorMessage) {
 		if (resultAll) {
 			resultAll &= _label->getEnterIntoLabelComponent() != nullptr;
 			if (!resultAll) {
-				errorMessage->append("Station has no component to enter into it");
+				errorMessage->append("Label has no component to enter into it");
 			}
 		}
 	}

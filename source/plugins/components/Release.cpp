@@ -99,6 +99,13 @@ void Release::_onDispatchEvent(Entity* entity, unsigned int inputPortNumber) {
 		assert(resource->getNumberBusy() >= quantity); // 202104 ops. maybe not anymore
 		_parentModel->getTracer()->traceSimulation(this, _parentModel->getSimulation()->getSimulatedTime(), entity, this, entity->getName() + " releases " + std::to_string(quantity) + " units of resource \"" + resource->getName() + "\" seized on time " + std::to_string(resource->getLastTimeSeized()));
 		resource->release(quantity); //{releases and sets the 'LastTimeSeized'property}
+		if (_reportStatistics) {
+			double timeSeized = resource->getLastTimeSeized();
+			double allocationEntityResource = entity->getAttributeValue("Entity.Allocation."+resource->getName());
+			std::string allocationCategory = Util::StrAllocation(static_cast<Util::AllocationType>((int) allocationEntityResource));
+			entity->getEntityType()->addGetStatisticsCollector(entity->getEntityTypeName() + "."+allocationCategory+"Time")->getStatistics()->getCollector()->addValue(timeSeized);
+			entity->setAttributeValue("Entity.Total"+allocationCategory+"Time", entity->getAttributeValue("Entity.Total"+allocationCategory+"Time") + timeSeized, true);			
+		}
 	}
 	_parentModel->sendEntityToComponent(entity, this->getConnections()->getFrontConnection());
 }
@@ -146,13 +153,13 @@ void Release::_createInternalAndAttachedData() {
 			if (resource == nullptr && _parentModel->isAutomaticallyCreatesModelDataDefinitions()) {
 				resource = _parentModel->getParentSimulator()->getPlugins()->newInstance<Resource>(_parentModel);
 			}
-			_attachedDataInsert("SeizableItem" + strIndex(i), resource);
+			_attachedDataInsert("SeizableItem" + Util::StrIndex(i), resource);
 		} else if (seizable->getSeizableType() == SeizableItem::SeizableType::SET) {
 			Set* set = seizable->getSet();
 			if (set == nullptr && _parentModel->isAutomaticallyCreatesModelDataDefinitions()) {
 				set = _parentModel->getParentSimulator()->getPlugins()->newInstance<Set>(_parentModel);
 			}
-			_attachedDataInsert("SeizableItem" + strIndex(i), set);
+			_attachedDataInsert("SeizableItem" + Util::StrIndex(i), set);
 		}
 		i++;
 	}

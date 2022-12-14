@@ -49,9 +49,11 @@
 
 	#include <string>
 	#include <cmath>
+	#include <algorithm>
 	#include "obj_t.h"
 	#include "../kernel/util/Util.h"
 	#include "../kernel/simulator/Attribute.h"
+	#include "../kernel/simulator/Counter.h"
 
 	/****begin_Includes_plugins****/
 
@@ -79,7 +81,7 @@
 
 	class genesyspp_driver;
 
-#line 83 "../GenesysParser.h"
+#line 85 "../GenesysParser.h"
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -219,7 +221,7 @@
 #endif
 
 namespace yy {
-#line 223 "../GenesysParser.h"
+#line 225 "../GenesysParser.h"
 
 
 
@@ -460,6 +462,8 @@ namespace yy {
       // fSQRT
       // fLOG
       // fLN
+      // mathMIN
+      // mathMAX
       // fVAL
       // fEVAL
       // fLENG
@@ -479,6 +483,7 @@ namespace yy {
       // fMAXREP
       // fNUMREP
       // fIDENT
+      // simulEntitiesWIP
       // cIF
       // cELSE
       // cFOR
@@ -486,7 +491,9 @@ namespace yy {
       // cDO
       // ATRIB
       // CSTAT
+      // COUNTER
       // fTAVG
+      // fCOUNT
       // ILLEGAL
       // RESOURCE
       // fNR
@@ -511,24 +518,25 @@ namespace yy {
       // fATRGR
       // input
       // expression
-      // numero
-      // aritmetica
-      // logica
+      // number
+      // arithmetic
+      // logical
       // relacional
-      // comando
-      // comandoIF
-      // comandoFOR
+      // command
+      // commandIF
+      // commandFOR
       // function
       // kernelFunction
+      // elementFunction
       // trigonFunction
       // mathFunction
       // probFunction
       // userFunction
       // listaparm
-      // atributo
-      // variavel
+      // attribute
+      // variable
       // formula
-      // atribuicao
+      // assigment
       // pluginFunction
       char dummy1[sizeof (obj_t)];
     };
@@ -605,69 +613,74 @@ namespace yy {
     fSQRT = 277,                   // fSQRT
     fLOG = 278,                    // fLOG
     fLN = 279,                     // fLN
-    fVAL = 280,                    // fVAL
-    fEVAL = 281,                   // fEVAL
-    fLENG = 282,                   // fLENG
-    fRND1 = 283,                   // fRND1
-    fEXPO = 284,                   // fEXPO
-    fNORM = 285,                   // fNORM
-    fUNIF = 286,                   // fUNIF
-    fWEIB = 287,                   // fWEIB
-    fLOGN = 288,                   // fLOGN
-    fGAMM = 289,                   // fGAMM
-    fERLA = 290,                   // fERLA
-    fTRIA = 291,                   // fTRIA
-    fBETA = 292,                   // fBETA
-    fDISC = 293,                   // fDISC
-    fTNOW = 294,                   // fTNOW
-    fTFIN = 295,                   // fTFIN
-    fMAXREP = 296,                 // fMAXREP
-    fNUMREP = 297,                 // fNUMREP
-    fIDENT = 298,                  // fIDENT
-    cIF = 299,                     // cIF
-    cELSE = 300,                   // cELSE
-    cFOR = 301,                    // cFOR
-    cTO = 302,                     // cTO
-    cDO = 303,                     // cDO
-    ATRIB = 304,                   // ATRIB
-    CSTAT = 305,                   // CSTAT
-    fTAVG = 306,                   // fTAVG
-    ILLEGAL = 307,                 // ILLEGAL
-    RESOURCE = 308,                // RESOURCE
-    fNR = 309,                     // fNR
-    fMR = 310,                     // fMR
-    fIRF = 311,                    // fIRF
-    fRESSEIZES = 312,              // fRESSEIZES
-    fSTATE = 313,                  // fSTATE
-    fSETSUM = 314,                 // fSETSUM
-    fRESUTIL = 315,                // fRESUTIL
-    QUEUE = 316,                   // QUEUE
-    fNQ = 317,                     // fNQ
-    fFIRSTINQ = 318,               // fFIRSTINQ
-    fLASTINQ = 319,                // fLASTINQ
-    fSAQUE = 320,                  // fSAQUE
-    fAQUE = 321,                   // fAQUE
-    fENTATRANK = 322,              // fENTATRANK
-    SET = 323,                     // SET
-    fNUMSET = 324,                 // fNUMSET
-    VARI = 325,                    // VARI
-    FORM = 326,                    // FORM
-    fNUMGR = 327,                  // fNUMGR
-    fATRGR = 328,                  // fATRGR
-    LPAREN = 329,                  // "("
-    RPAREN = 330,                  // ")"
-    LBRACKET = 331,                // "["
-    RBRACKET = 332,                // "]"
-    PLUS = 333,                    // "+"
-    MINUS = 334,                   // "-"
-    STAR = 335,                    // "*"
-    POWER = 336,                   // "^"
-    SLASH = 337,                   // "/"
-    LESS = 338,                    // "<"
-    GREATER = 339,                 // ">"
-    ASSIGN = 340,                  // "="
-    COMMA = 341,                   // ","
-    NEG = 342                      // NEG
+    mathMIN = 280,                 // mathMIN
+    mathMAX = 281,                 // mathMAX
+    fVAL = 282,                    // fVAL
+    fEVAL = 283,                   // fEVAL
+    fLENG = 284,                   // fLENG
+    fRND1 = 285,                   // fRND1
+    fEXPO = 286,                   // fEXPO
+    fNORM = 287,                   // fNORM
+    fUNIF = 288,                   // fUNIF
+    fWEIB = 289,                   // fWEIB
+    fLOGN = 290,                   // fLOGN
+    fGAMM = 291,                   // fGAMM
+    fERLA = 292,                   // fERLA
+    fTRIA = 293,                   // fTRIA
+    fBETA = 294,                   // fBETA
+    fDISC = 295,                   // fDISC
+    fTNOW = 296,                   // fTNOW
+    fTFIN = 297,                   // fTFIN
+    fMAXREP = 298,                 // fMAXREP
+    fNUMREP = 299,                 // fNUMREP
+    fIDENT = 300,                  // fIDENT
+    simulEntitiesWIP = 301,        // simulEntitiesWIP
+    cIF = 302,                     // cIF
+    cELSE = 303,                   // cELSE
+    cFOR = 304,                    // cFOR
+    cTO = 305,                     // cTO
+    cDO = 306,                     // cDO
+    ATRIB = 307,                   // ATRIB
+    CSTAT = 308,                   // CSTAT
+    COUNTER = 309,                 // COUNTER
+    fTAVG = 310,                   // fTAVG
+    fCOUNT = 311,                  // fCOUNT
+    ILLEGAL = 312,                 // ILLEGAL
+    RESOURCE = 313,                // RESOURCE
+    fNR = 314,                     // fNR
+    fMR = 315,                     // fMR
+    fIRF = 316,                    // fIRF
+    fRESSEIZES = 317,              // fRESSEIZES
+    fSTATE = 318,                  // fSTATE
+    fSETSUM = 319,                 // fSETSUM
+    fRESUTIL = 320,                // fRESUTIL
+    QUEUE = 321,                   // QUEUE
+    fNQ = 322,                     // fNQ
+    fFIRSTINQ = 323,               // fFIRSTINQ
+    fLASTINQ = 324,                // fLASTINQ
+    fSAQUE = 325,                  // fSAQUE
+    fAQUE = 326,                   // fAQUE
+    fENTATRANK = 327,              // fENTATRANK
+    SET = 328,                     // SET
+    fNUMSET = 329,                 // fNUMSET
+    VARI = 330,                    // VARI
+    FORM = 331,                    // FORM
+    fNUMGR = 332,                  // fNUMGR
+    fATRGR = 333,                  // fATRGR
+    LPAREN = 334,                  // "("
+    RPAREN = 335,                  // ")"
+    LBRACKET = 336,                // "["
+    RBRACKET = 337,                // "]"
+    PLUS = 338,                    // "+"
+    MINUS = 339,                   // "-"
+    STAR = 340,                    // "*"
+    POWER = 341,                   // "^"
+    SLASH = 342,                   // "/"
+    LESS = 343,                    // "<"
+    GREATER = 344,                 // ">"
+    ASSIGN = 345,                  // "="
+    COMMA = 346,                   // ","
+    NEG = 347                      // NEG
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -684,7 +697,7 @@ namespace yy {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 90, ///< Number of tokens.
+        YYNTOKENS = 95, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -711,93 +724,99 @@ namespace yy {
         S_fSQRT = 22,                            // fSQRT
         S_fLOG = 23,                             // fLOG
         S_fLN = 24,                              // fLN
-        S_fVAL = 25,                             // fVAL
-        S_fEVAL = 26,                            // fEVAL
-        S_fLENG = 27,                            // fLENG
-        S_fRND1 = 28,                            // fRND1
-        S_fEXPO = 29,                            // fEXPO
-        S_fNORM = 30,                            // fNORM
-        S_fUNIF = 31,                            // fUNIF
-        S_fWEIB = 32,                            // fWEIB
-        S_fLOGN = 33,                            // fLOGN
-        S_fGAMM = 34,                            // fGAMM
-        S_fERLA = 35,                            // fERLA
-        S_fTRIA = 36,                            // fTRIA
-        S_fBETA = 37,                            // fBETA
-        S_fDISC = 38,                            // fDISC
-        S_fTNOW = 39,                            // fTNOW
-        S_fTFIN = 40,                            // fTFIN
-        S_fMAXREP = 41,                          // fMAXREP
-        S_fNUMREP = 42,                          // fNUMREP
-        S_fIDENT = 43,                           // fIDENT
-        S_cIF = 44,                              // cIF
-        S_cELSE = 45,                            // cELSE
-        S_cFOR = 46,                             // cFOR
-        S_cTO = 47,                              // cTO
-        S_cDO = 48,                              // cDO
-        S_ATRIB = 49,                            // ATRIB
-        S_CSTAT = 50,                            // CSTAT
-        S_fTAVG = 51,                            // fTAVG
-        S_ILLEGAL = 52,                          // ILLEGAL
-        S_RESOURCE = 53,                         // RESOURCE
-        S_fNR = 54,                              // fNR
-        S_fMR = 55,                              // fMR
-        S_fIRF = 56,                             // fIRF
-        S_fRESSEIZES = 57,                       // fRESSEIZES
-        S_fSTATE = 58,                           // fSTATE
-        S_fSETSUM = 59,                          // fSETSUM
-        S_fRESUTIL = 60,                         // fRESUTIL
-        S_QUEUE = 61,                            // QUEUE
-        S_fNQ = 62,                              // fNQ
-        S_fFIRSTINQ = 63,                        // fFIRSTINQ
-        S_fLASTINQ = 64,                         // fLASTINQ
-        S_fSAQUE = 65,                           // fSAQUE
-        S_fAQUE = 66,                            // fAQUE
-        S_fENTATRANK = 67,                       // fENTATRANK
-        S_SET = 68,                              // SET
-        S_fNUMSET = 69,                          // fNUMSET
-        S_VARI = 70,                             // VARI
-        S_FORM = 71,                             // FORM
-        S_fNUMGR = 72,                           // fNUMGR
-        S_fATRGR = 73,                           // fATRGR
-        S_LPAREN = 74,                           // "("
-        S_RPAREN = 75,                           // ")"
-        S_LBRACKET = 76,                         // "["
-        S_RBRACKET = 77,                         // "]"
-        S_PLUS = 78,                             // "+"
-        S_MINUS = 79,                            // "-"
-        S_STAR = 80,                             // "*"
-        S_POWER = 81,                            // "^"
-        S_SLASH = 82,                            // "/"
-        S_LESS = 83,                             // "<"
-        S_GREATER = 84,                          // ">"
-        S_ASSIGN = 85,                           // "="
-        S_COMMA = 86,                            // ","
-        S_NEG = 87,                              // NEG
-        S_88_n_ = 88,                            // '\n'
-        S_89_USER_ = 89,                         // "USER"
-        S_YYACCEPT = 90,                         // $accept
-        S_input = 91,                            // input
-        S_expression = 92,                       // expression
-        S_numero = 93,                           // numero
-        S_aritmetica = 94,                       // aritmetica
-        S_logica = 95,                           // logica
-        S_relacional = 96,                       // relacional
-        S_comando = 97,                          // comando
-        S_comandoIF = 98,                        // comandoIF
-        S_comandoFOR = 99,                       // comandoFOR
-        S_function = 100,                        // function
-        S_kernelFunction = 101,                  // kernelFunction
-        S_trigonFunction = 102,                  // trigonFunction
-        S_mathFunction = 103,                    // mathFunction
-        S_probFunction = 104,                    // probFunction
-        S_userFunction = 105,                    // userFunction
-        S_listaparm = 106,                       // listaparm
-        S_atributo = 107,                        // atributo
-        S_variavel = 108,                        // variavel
-        S_formula = 109,                         // formula
-        S_atribuicao = 110,                      // atribuicao
-        S_pluginFunction = 111                   // pluginFunction
+        S_mathMIN = 25,                          // mathMIN
+        S_mathMAX = 26,                          // mathMAX
+        S_fVAL = 27,                             // fVAL
+        S_fEVAL = 28,                            // fEVAL
+        S_fLENG = 29,                            // fLENG
+        S_fRND1 = 30,                            // fRND1
+        S_fEXPO = 31,                            // fEXPO
+        S_fNORM = 32,                            // fNORM
+        S_fUNIF = 33,                            // fUNIF
+        S_fWEIB = 34,                            // fWEIB
+        S_fLOGN = 35,                            // fLOGN
+        S_fGAMM = 36,                            // fGAMM
+        S_fERLA = 37,                            // fERLA
+        S_fTRIA = 38,                            // fTRIA
+        S_fBETA = 39,                            // fBETA
+        S_fDISC = 40,                            // fDISC
+        S_fTNOW = 41,                            // fTNOW
+        S_fTFIN = 42,                            // fTFIN
+        S_fMAXREP = 43,                          // fMAXREP
+        S_fNUMREP = 44,                          // fNUMREP
+        S_fIDENT = 45,                           // fIDENT
+        S_simulEntitiesWIP = 46,                 // simulEntitiesWIP
+        S_cIF = 47,                              // cIF
+        S_cELSE = 48,                            // cELSE
+        S_cFOR = 49,                             // cFOR
+        S_cTO = 50,                              // cTO
+        S_cDO = 51,                              // cDO
+        S_ATRIB = 52,                            // ATRIB
+        S_CSTAT = 53,                            // CSTAT
+        S_COUNTER = 54,                          // COUNTER
+        S_fTAVG = 55,                            // fTAVG
+        S_fCOUNT = 56,                           // fCOUNT
+        S_ILLEGAL = 57,                          // ILLEGAL
+        S_RESOURCE = 58,                         // RESOURCE
+        S_fNR = 59,                              // fNR
+        S_fMR = 60,                              // fMR
+        S_fIRF = 61,                             // fIRF
+        S_fRESSEIZES = 62,                       // fRESSEIZES
+        S_fSTATE = 63,                           // fSTATE
+        S_fSETSUM = 64,                          // fSETSUM
+        S_fRESUTIL = 65,                         // fRESUTIL
+        S_QUEUE = 66,                            // QUEUE
+        S_fNQ = 67,                              // fNQ
+        S_fFIRSTINQ = 68,                        // fFIRSTINQ
+        S_fLASTINQ = 69,                         // fLASTINQ
+        S_fSAQUE = 70,                           // fSAQUE
+        S_fAQUE = 71,                            // fAQUE
+        S_fENTATRANK = 72,                       // fENTATRANK
+        S_SET = 73,                              // SET
+        S_fNUMSET = 74,                          // fNUMSET
+        S_VARI = 75,                             // VARI
+        S_FORM = 76,                             // FORM
+        S_fNUMGR = 77,                           // fNUMGR
+        S_fATRGR = 78,                           // fATRGR
+        S_LPAREN = 79,                           // "("
+        S_RPAREN = 80,                           // ")"
+        S_LBRACKET = 81,                         // "["
+        S_RBRACKET = 82,                         // "]"
+        S_PLUS = 83,                             // "+"
+        S_MINUS = 84,                            // "-"
+        S_STAR = 85,                             // "*"
+        S_POWER = 86,                            // "^"
+        S_SLASH = 87,                            // "/"
+        S_LESS = 88,                             // "<"
+        S_GREATER = 89,                          // ">"
+        S_ASSIGN = 90,                           // "="
+        S_COMMA = 91,                            // ","
+        S_NEG = 92,                              // NEG
+        S_93_n_ = 93,                            // '\n'
+        S_94_USER_ = 94,                         // "USER"
+        S_YYACCEPT = 95,                         // $accept
+        S_input = 96,                            // input
+        S_expression = 97,                       // expression
+        S_number = 98,                           // number
+        S_arithmetic = 99,                       // arithmetic
+        S_logical = 100,                         // logical
+        S_relacional = 101,                      // relacional
+        S_command = 102,                         // command
+        S_commandIF = 103,                       // commandIF
+        S_commandFOR = 104,                      // commandFOR
+        S_function = 105,                        // function
+        S_kernelFunction = 106,                  // kernelFunction
+        S_elementFunction = 107,                 // elementFunction
+        S_trigonFunction = 108,                  // trigonFunction
+        S_mathFunction = 109,                    // mathFunction
+        S_probFunction = 110,                    // probFunction
+        S_userFunction = 111,                    // userFunction
+        S_listaparm = 112,                       // listaparm
+        S_attribute = 113,                       // attribute
+        S_variable = 114,                        // variable
+        S_formula = 115,                         // formula
+        S_assigment = 116,                       // assigment
+        S_pluginFunction = 117                   // pluginFunction
       };
     };
 
@@ -856,6 +875,8 @@ namespace yy {
       case symbol_kind::S_fSQRT: // fSQRT
       case symbol_kind::S_fLOG: // fLOG
       case symbol_kind::S_fLN: // fLN
+      case symbol_kind::S_mathMIN: // mathMIN
+      case symbol_kind::S_mathMAX: // mathMAX
       case symbol_kind::S_fVAL: // fVAL
       case symbol_kind::S_fEVAL: // fEVAL
       case symbol_kind::S_fLENG: // fLENG
@@ -875,6 +896,7 @@ namespace yy {
       case symbol_kind::S_fMAXREP: // fMAXREP
       case symbol_kind::S_fNUMREP: // fNUMREP
       case symbol_kind::S_fIDENT: // fIDENT
+      case symbol_kind::S_simulEntitiesWIP: // simulEntitiesWIP
       case symbol_kind::S_cIF: // cIF
       case symbol_kind::S_cELSE: // cELSE
       case symbol_kind::S_cFOR: // cFOR
@@ -882,7 +904,9 @@ namespace yy {
       case symbol_kind::S_cDO: // cDO
       case symbol_kind::S_ATRIB: // ATRIB
       case symbol_kind::S_CSTAT: // CSTAT
+      case symbol_kind::S_COUNTER: // COUNTER
       case symbol_kind::S_fTAVG: // fTAVG
+      case symbol_kind::S_fCOUNT: // fCOUNT
       case symbol_kind::S_ILLEGAL: // ILLEGAL
       case symbol_kind::S_RESOURCE: // RESOURCE
       case symbol_kind::S_fNR: // fNR
@@ -907,24 +931,25 @@ namespace yy {
       case symbol_kind::S_fATRGR: // fATRGR
       case symbol_kind::S_input: // input
       case symbol_kind::S_expression: // expression
-      case symbol_kind::S_numero: // numero
-      case symbol_kind::S_aritmetica: // aritmetica
-      case symbol_kind::S_logica: // logica
+      case symbol_kind::S_number: // number
+      case symbol_kind::S_arithmetic: // arithmetic
+      case symbol_kind::S_logical: // logical
       case symbol_kind::S_relacional: // relacional
-      case symbol_kind::S_comando: // comando
-      case symbol_kind::S_comandoIF: // comandoIF
-      case symbol_kind::S_comandoFOR: // comandoFOR
+      case symbol_kind::S_command: // command
+      case symbol_kind::S_commandIF: // commandIF
+      case symbol_kind::S_commandFOR: // commandFOR
       case symbol_kind::S_function: // function
       case symbol_kind::S_kernelFunction: // kernelFunction
+      case symbol_kind::S_elementFunction: // elementFunction
       case symbol_kind::S_trigonFunction: // trigonFunction
       case symbol_kind::S_mathFunction: // mathFunction
       case symbol_kind::S_probFunction: // probFunction
       case symbol_kind::S_userFunction: // userFunction
       case symbol_kind::S_listaparm: // listaparm
-      case symbol_kind::S_atributo: // atributo
-      case symbol_kind::S_variavel: // variavel
+      case symbol_kind::S_attribute: // attribute
+      case symbol_kind::S_variable: // variable
       case symbol_kind::S_formula: // formula
-      case symbol_kind::S_atribuicao: // atribuicao
+      case symbol_kind::S_assigment: // assigment
       case symbol_kind::S_pluginFunction: // pluginFunction
         value.move< obj_t > (std::move (that.value));
         break;
@@ -1012,6 +1037,8 @@ switch (yykind)
       case symbol_kind::S_fSQRT: // fSQRT
       case symbol_kind::S_fLOG: // fLOG
       case symbol_kind::S_fLN: // fLN
+      case symbol_kind::S_mathMIN: // mathMIN
+      case symbol_kind::S_mathMAX: // mathMAX
       case symbol_kind::S_fVAL: // fVAL
       case symbol_kind::S_fEVAL: // fEVAL
       case symbol_kind::S_fLENG: // fLENG
@@ -1031,6 +1058,7 @@ switch (yykind)
       case symbol_kind::S_fMAXREP: // fMAXREP
       case symbol_kind::S_fNUMREP: // fNUMREP
       case symbol_kind::S_fIDENT: // fIDENT
+      case symbol_kind::S_simulEntitiesWIP: // simulEntitiesWIP
       case symbol_kind::S_cIF: // cIF
       case symbol_kind::S_cELSE: // cELSE
       case symbol_kind::S_cFOR: // cFOR
@@ -1038,7 +1066,9 @@ switch (yykind)
       case symbol_kind::S_cDO: // cDO
       case symbol_kind::S_ATRIB: // ATRIB
       case symbol_kind::S_CSTAT: // CSTAT
+      case symbol_kind::S_COUNTER: // COUNTER
       case symbol_kind::S_fTAVG: // fTAVG
+      case symbol_kind::S_fCOUNT: // fCOUNT
       case symbol_kind::S_ILLEGAL: // ILLEGAL
       case symbol_kind::S_RESOURCE: // RESOURCE
       case symbol_kind::S_fNR: // fNR
@@ -1063,24 +1093,25 @@ switch (yykind)
       case symbol_kind::S_fATRGR: // fATRGR
       case symbol_kind::S_input: // input
       case symbol_kind::S_expression: // expression
-      case symbol_kind::S_numero: // numero
-      case symbol_kind::S_aritmetica: // aritmetica
-      case symbol_kind::S_logica: // logica
+      case symbol_kind::S_number: // number
+      case symbol_kind::S_arithmetic: // arithmetic
+      case symbol_kind::S_logical: // logical
       case symbol_kind::S_relacional: // relacional
-      case symbol_kind::S_comando: // comando
-      case symbol_kind::S_comandoIF: // comandoIF
-      case symbol_kind::S_comandoFOR: // comandoFOR
+      case symbol_kind::S_command: // command
+      case symbol_kind::S_commandIF: // commandIF
+      case symbol_kind::S_commandFOR: // commandFOR
       case symbol_kind::S_function: // function
       case symbol_kind::S_kernelFunction: // kernelFunction
+      case symbol_kind::S_elementFunction: // elementFunction
       case symbol_kind::S_trigonFunction: // trigonFunction
       case symbol_kind::S_mathFunction: // mathFunction
       case symbol_kind::S_probFunction: // probFunction
       case symbol_kind::S_userFunction: // userFunction
       case symbol_kind::S_listaparm: // listaparm
-      case symbol_kind::S_atributo: // atributo
-      case symbol_kind::S_variavel: // variavel
+      case symbol_kind::S_attribute: // attribute
+      case symbol_kind::S_variable: // variable
       case symbol_kind::S_formula: // formula
-      case symbol_kind::S_atribuicao: // atribuicao
+      case symbol_kind::S_assigment: // assigment
       case symbol_kind::S_pluginFunction: // pluginFunction
         value.template destroy< obj_t > ();
         break;
@@ -1186,7 +1217,7 @@ switch (yykind)
                    || (token::YYerror <= tok && tok <= token::YYUNDEF)
                    || (token::LPAREN <= tok && tok <= token::NEG)
                    || tok == 10
-                   || tok == 343);
+                   || tok == 348);
 #endif
       }
 #if 201103L <= YY_CPLUSPLUS
@@ -1627,6 +1658,36 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_mathMIN (obj_t v, location_type l)
+      {
+        return symbol_type (token::mathMIN, std::move (v), std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_mathMIN (const obj_t& v, const location_type& l)
+      {
+        return symbol_type (token::mathMIN, v, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_mathMAX (obj_t v, location_type l)
+      {
+        return symbol_type (token::mathMAX, std::move (v), std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_mathMAX (const obj_t& v, const location_type& l)
+      {
+        return symbol_type (token::mathMAX, v, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_fVAL (obj_t v, location_type l)
       {
         return symbol_type (token::fVAL, std::move (v), std::move (l));
@@ -1912,6 +1973,21 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_simulEntitiesWIP (obj_t v, location_type l)
+      {
+        return symbol_type (token::simulEntitiesWIP, std::move (v), std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_simulEntitiesWIP (const obj_t& v, const location_type& l)
+      {
+        return symbol_type (token::simulEntitiesWIP, v, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_cIF (obj_t v, location_type l)
       {
         return symbol_type (token::cIF, std::move (v), std::move (l));
@@ -2017,6 +2093,21 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_COUNTER (obj_t v, location_type l)
+      {
+        return symbol_type (token::COUNTER, std::move (v), std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_COUNTER (const obj_t& v, const location_type& l)
+      {
+        return symbol_type (token::COUNTER, v, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_fTAVG (obj_t v, location_type l)
       {
         return symbol_type (token::fTAVG, std::move (v), std::move (l));
@@ -2027,6 +2118,21 @@ switch (yykind)
       make_fTAVG (const obj_t& v, const location_type& l)
       {
         return symbol_type (token::fTAVG, v, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_fCOUNT (obj_t v, location_type l)
+      {
+        return symbol_type (token::fCOUNT, std::move (v), std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_fCOUNT (const obj_t& v, const location_type& l)
+      {
+        return symbol_type (token::fCOUNT, v, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -2899,9 +3005,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 1779,     ///< Last index in yytable_.
-      yynnts_ = 22,  ///< Number of nonterminal symbols.
-      yyfinal_ = 122 ///< Termination state number.
+      yylast_ = 1900,     ///< Last index in yytable_.
+      yynnts_ = 23,  ///< Number of nonterminal symbols.
+      yyfinal_ = 129 ///< Termination state number.
     };
 
 
@@ -2921,7 +3027,7 @@ switch (yykind)
     translate_table[] =
     {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      88,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+      93,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -2954,10 +3060,10 @@ switch (yykind)
       55,    56,    57,    58,    59,    60,    61,    62,    63,    64,
       65,    66,    67,    68,    69,    70,    71,    72,    73,    74,
       75,    76,    77,    78,    79,    80,    81,    82,    83,    84,
-      85,    86,    87,    89
+      85,    86,    87,    88,    89,    90,    91,    92,    94
     };
     // Last valid token kind.
-    const int code_max = 343;
+    const int code_max = 348;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -2998,6 +3104,8 @@ switch (yykind)
       case symbol_kind::S_fSQRT: // fSQRT
       case symbol_kind::S_fLOG: // fLOG
       case symbol_kind::S_fLN: // fLN
+      case symbol_kind::S_mathMIN: // mathMIN
+      case symbol_kind::S_mathMAX: // mathMAX
       case symbol_kind::S_fVAL: // fVAL
       case symbol_kind::S_fEVAL: // fEVAL
       case symbol_kind::S_fLENG: // fLENG
@@ -3017,6 +3125,7 @@ switch (yykind)
       case symbol_kind::S_fMAXREP: // fMAXREP
       case symbol_kind::S_fNUMREP: // fNUMREP
       case symbol_kind::S_fIDENT: // fIDENT
+      case symbol_kind::S_simulEntitiesWIP: // simulEntitiesWIP
       case symbol_kind::S_cIF: // cIF
       case symbol_kind::S_cELSE: // cELSE
       case symbol_kind::S_cFOR: // cFOR
@@ -3024,7 +3133,9 @@ switch (yykind)
       case symbol_kind::S_cDO: // cDO
       case symbol_kind::S_ATRIB: // ATRIB
       case symbol_kind::S_CSTAT: // CSTAT
+      case symbol_kind::S_COUNTER: // COUNTER
       case symbol_kind::S_fTAVG: // fTAVG
+      case symbol_kind::S_fCOUNT: // fCOUNT
       case symbol_kind::S_ILLEGAL: // ILLEGAL
       case symbol_kind::S_RESOURCE: // RESOURCE
       case symbol_kind::S_fNR: // fNR
@@ -3049,24 +3160,25 @@ switch (yykind)
       case symbol_kind::S_fATRGR: // fATRGR
       case symbol_kind::S_input: // input
       case symbol_kind::S_expression: // expression
-      case symbol_kind::S_numero: // numero
-      case symbol_kind::S_aritmetica: // aritmetica
-      case symbol_kind::S_logica: // logica
+      case symbol_kind::S_number: // number
+      case symbol_kind::S_arithmetic: // arithmetic
+      case symbol_kind::S_logical: // logical
       case symbol_kind::S_relacional: // relacional
-      case symbol_kind::S_comando: // comando
-      case symbol_kind::S_comandoIF: // comandoIF
-      case symbol_kind::S_comandoFOR: // comandoFOR
+      case symbol_kind::S_command: // command
+      case symbol_kind::S_commandIF: // commandIF
+      case symbol_kind::S_commandFOR: // commandFOR
       case symbol_kind::S_function: // function
       case symbol_kind::S_kernelFunction: // kernelFunction
+      case symbol_kind::S_elementFunction: // elementFunction
       case symbol_kind::S_trigonFunction: // trigonFunction
       case symbol_kind::S_mathFunction: // mathFunction
       case symbol_kind::S_probFunction: // probFunction
       case symbol_kind::S_userFunction: // userFunction
       case symbol_kind::S_listaparm: // listaparm
-      case symbol_kind::S_atributo: // atributo
-      case symbol_kind::S_variavel: // variavel
+      case symbol_kind::S_attribute: // attribute
+      case symbol_kind::S_variable: // variable
       case symbol_kind::S_formula: // formula
-      case symbol_kind::S_atribuicao: // atribuicao
+      case symbol_kind::S_assigment: // assigment
       case symbol_kind::S_pluginFunction: // pluginFunction
         value.copy< obj_t > (YY_MOVE (that.value));
         break;
@@ -3124,6 +3236,8 @@ switch (yykind)
       case symbol_kind::S_fSQRT: // fSQRT
       case symbol_kind::S_fLOG: // fLOG
       case symbol_kind::S_fLN: // fLN
+      case symbol_kind::S_mathMIN: // mathMIN
+      case symbol_kind::S_mathMAX: // mathMAX
       case symbol_kind::S_fVAL: // fVAL
       case symbol_kind::S_fEVAL: // fEVAL
       case symbol_kind::S_fLENG: // fLENG
@@ -3143,6 +3257,7 @@ switch (yykind)
       case symbol_kind::S_fMAXREP: // fMAXREP
       case symbol_kind::S_fNUMREP: // fNUMREP
       case symbol_kind::S_fIDENT: // fIDENT
+      case symbol_kind::S_simulEntitiesWIP: // simulEntitiesWIP
       case symbol_kind::S_cIF: // cIF
       case symbol_kind::S_cELSE: // cELSE
       case symbol_kind::S_cFOR: // cFOR
@@ -3150,7 +3265,9 @@ switch (yykind)
       case symbol_kind::S_cDO: // cDO
       case symbol_kind::S_ATRIB: // ATRIB
       case symbol_kind::S_CSTAT: // CSTAT
+      case symbol_kind::S_COUNTER: // COUNTER
       case symbol_kind::S_fTAVG: // fTAVG
+      case symbol_kind::S_fCOUNT: // fCOUNT
       case symbol_kind::S_ILLEGAL: // ILLEGAL
       case symbol_kind::S_RESOURCE: // RESOURCE
       case symbol_kind::S_fNR: // fNR
@@ -3175,24 +3292,25 @@ switch (yykind)
       case symbol_kind::S_fATRGR: // fATRGR
       case symbol_kind::S_input: // input
       case symbol_kind::S_expression: // expression
-      case symbol_kind::S_numero: // numero
-      case symbol_kind::S_aritmetica: // aritmetica
-      case symbol_kind::S_logica: // logica
+      case symbol_kind::S_number: // number
+      case symbol_kind::S_arithmetic: // arithmetic
+      case symbol_kind::S_logical: // logical
       case symbol_kind::S_relacional: // relacional
-      case symbol_kind::S_comando: // comando
-      case symbol_kind::S_comandoIF: // comandoIF
-      case symbol_kind::S_comandoFOR: // comandoFOR
+      case symbol_kind::S_command: // command
+      case symbol_kind::S_commandIF: // commandIF
+      case symbol_kind::S_commandFOR: // commandFOR
       case symbol_kind::S_function: // function
       case symbol_kind::S_kernelFunction: // kernelFunction
+      case symbol_kind::S_elementFunction: // elementFunction
       case symbol_kind::S_trigonFunction: // trigonFunction
       case symbol_kind::S_mathFunction: // mathFunction
       case symbol_kind::S_probFunction: // probFunction
       case symbol_kind::S_userFunction: // userFunction
       case symbol_kind::S_listaparm: // listaparm
-      case symbol_kind::S_atributo: // atributo
-      case symbol_kind::S_variavel: // variavel
+      case symbol_kind::S_attribute: // attribute
+      case symbol_kind::S_variable: // variable
       case symbol_kind::S_formula: // formula
-      case symbol_kind::S_atribuicao: // atribuicao
+      case symbol_kind::S_assigment: // assigment
       case symbol_kind::S_pluginFunction: // pluginFunction
         value.move< obj_t > (YY_MOVE (s.value));
         break;
@@ -3263,7 +3381,7 @@ switch (yykind)
 
 
 } // yy
-#line 3267 "../GenesysParser.h"
+#line 3385 "../GenesysParser.h"
 
 
 

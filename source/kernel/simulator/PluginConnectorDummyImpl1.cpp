@@ -18,6 +18,7 @@
 #include "../../plugins/components/Access.h"
 #include "../../plugins/components/Assign.h"
 #include "../../plugins/components/Batch.h"
+#include "../../plugins/components/Clone.h"
 #include "../../plugins/components/CppForG.h"
 #include "../../plugins/components/Create.h"
 #include "../../plugins/components/Decide.h"
@@ -27,16 +28,16 @@
 #include "../../plugins/components/DummyComponent.h"
 #include "../../plugins/components/Enter.h"
 #include "../../plugins/components/Exit.h"
-#include "../../plugins/components/Wait.h"
+#include "../../plugins/components/FiniteStateMachine.h"
 #include "../../plugins/components/Leave.h"
 #include "../../plugins/components/Match.h"
 #include "../../plugins/components/MarkovChain.h"
+#include "../../plugins/components/PickStation.h"
 #include "../../plugins/components/PickUp.h"
 #include "../../plugins/components/Seize.h"
 //#include "../../plugins/components/Read.h"
 #include "../../plugins/components/Release.h"
 #include "../../plugins/components/Remove.h"
-#include "../../plugins/components/PickStation.h"
 #include "../../plugins/components/Process.h"
 #include "../../plugins/components/Record.h"
 #include "../../plugins/components/Route.h"
@@ -48,16 +49,17 @@
 #include "../../plugins/components/Separate.h"
 #include "../../plugins/components/Submodel.h"
 #include "../../plugins/components/Unstore.h"
+#include "../../plugins/components/Wait.h"
 #include "../../plugins/components/Write.h"
 #include "../../plugins/components/LSODE.h"
-#include "../../plugins/components/FiniteStateMachine.h"
 
 
 // Model data definitions
-#include "../../plugins/data/CppCode.h"
+#include "../../plugins/data/CppCompiler.h"
 #include "../../plugins/data/EntityGroup.h"
 #include "../../plugins/data/Failure.h"
 #include "../../plugins/data/File.h"
+#include "../../plugins/data/Formula.h"
 #include "../../plugins/data/Label.h"
 #include "../../plugins/data/Schedule.h"
 #include "../../plugins/data/Sequence.h"
@@ -66,7 +68,7 @@
 #include "../../plugins/data/Station.h"
 #include "../../plugins/data/Storage.h"
 #include "../../plugins/data/Variable.h"
-#include "../../plugins/data/ExFiStatMac.h"
+#include "../../plugins/data/EFSM.h"
 //#include "../../plugins/data/Expression.h"
 //#include "../../plugins/data/Conveyor.h"
 //#include "../../plugins/data/Segment.h"
@@ -85,7 +87,7 @@ Plugin* PluginConnectorDummyImpl1::check(const std::string dynamicLibraryFilenam
 }
 
 Plugin* PluginConnectorDummyImpl1::connect(const std::string dynamicLibraryFilename) {
-	std::string fn = getFileName(dynamicLibraryFilename);
+	std::string fn = Util::FilenameFromFullFilename(dynamicLibraryFilename);
 	StaticGetPluginInformation GetInfo = nullptr;
 	Plugin* pluginResult = nullptr;
 	// @TODO: Dummy connections basically does nothing but give access to PluginInformation alreaady compiled
@@ -156,6 +158,8 @@ Plugin* PluginConnectorDummyImpl1::connect(const std::string dynamicLibraryFilen
 		GetInfo = &Separate::GetPluginInformation;
 		//else if (fn == "submodel.so")
 		//    GetInfo = &Submodel::GetPluginInformation;
+	else if (fn == "clone.so")
+		GetInfo = &Clone::GetPluginInformation;
 	else if (fn == "match.so")
 		GetInfo = &Match::GetPluginInformation;
 	else if (fn == "pickup.so")
@@ -176,8 +180,8 @@ Plugin* PluginConnectorDummyImpl1::connect(const std::string dynamicLibraryFilen
 		GetInfo = &CppForG::GetPluginInformation;
 	else if (fn == "unstore.so")
 		GetInfo = &Unstore::GetPluginInformation;
-		//else if (fn == "expression.so")
-		//	GetInfo = &Expression::GetPluginInformation;
+	else if (fn == "formula.so")
+		GetInfo = &Formula::GetPluginInformation;
 	else if (fn == "failure.so")
 		GetInfo = &Failure::GetPluginInformation;
 	else if (fn == "file.so")
@@ -196,12 +200,12 @@ Plugin* PluginConnectorDummyImpl1::connect(const std::string dynamicLibraryFilen
 		GetInfo = &Start::GetPluginInformation;
 	else if (fn == "stop.so")
 		GetInfo = &Stop::GetPluginInformation;
-	else if (fn == "cppcode.so")
-		GetInfo = &CppCode::GetPluginInformation;
+	else if (fn == "cppcompiler.so")
+		GetInfo = &CppCompiler::GetPluginInformation;
 	else if (fn == "efsm.so")
 		GetInfo = &FiniteStateMachine::GetPluginInformation;
 	else if (fn == "efsmData.so")
-		GetInfo = &ExFiStatMac::GetPluginInformation;
+		GetInfo = &ExtendedFSM::GetPluginInformation;
 	//    GetInfo = &Conveyour::GetPluginInformation;
 	//else if (fn == "segment.so")
 	//    GetInfo = &Segment::GetPluginInformation;

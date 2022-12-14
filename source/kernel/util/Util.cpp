@@ -100,6 +100,23 @@ std::string Util::StrTimeUnitLong(Util::TimeUnit timeUnit) {
 	return "";
 }
 
+std::string Util::StrAllocation(Util::AllocationType allocation) {
+	switch (allocation) {
+		case Util::AllocationType::NonValueAdded:
+			return "NonValueAdded";
+		case Util::AllocationType::Others:
+			return "Others";
+		case Util::AllocationType::Transfer:
+			return "Transfer";
+		case Util::AllocationType::ValueAdded:
+			return "ValueAdded";
+		case Util::AllocationType::Wait:
+			return "Wait";
+		default:
+			return "Unknown";
+	}
+}
+
 Util::identification Util::GenerateNewId() {
 	Util::_S_lastId++;
 	return Util::_S_lastId;
@@ -163,4 +180,162 @@ double Util::TimeUnitConvert(Util::TimeUnit timeUnit1, Util::TimeUnit timeUnit2)
 		}
 	}
 	return res;
+}
+
+//-------------------
+
+std::string Util::StrTruncIfInt(double value) {
+	int intvalue = static_cast<int> (value);
+	if (intvalue == value)
+		return std::to_string(intvalue) + ".0";
+	else
+		return std::to_string(value);
+}
+
+std::string Util::StrTruncIfInt(std::string strValue) {
+	if (strValue.length() > 7 && strValue.substr(strValue.length() - 7, 7) == ".000000")
+		return strValue.substr(0, strValue.length() - 7);
+	else
+		return strValue;
+}
+
+std::string Util::Trim(std::string str) {
+	const char* typeOfWhitespaces = " \t\n\r\f\v";
+	str.erase(str.find_last_not_of(typeOfWhitespaces) + 1);
+	str.erase(0, str.find_first_not_of(typeOfWhitespaces));
+	return str;
+}
+
+std::string Util::StrReplace(std::string text, std::string searchFor, std::string replaceBy) {
+	unsigned int pos = text.find(searchFor, 0);
+	while (pos < text.length()) {// != std::string::npos) {
+		text = text.replace(pos, searchFor.length(), replaceBy);
+		pos = text.find(searchFor, 0);
+	}
+	return text;
+}
+/// returns a string in the form "[<index>] for array indexes"
+
+std::string Util::StrIndex(int index) {
+	return "[" + std::to_string(index) + "]";
+}
+
+/*
+char* Util::Str2CharPtr(std::string str) {
+	char * cstr = new char [str.length() + 1];
+	std::strcpy(cstr, str.c_str());
+	// cstr now contains a c-string copy of str
+	char * p = std::strtok(cstr, " ");
+	while (p != 0) {
+		std::cout << p << '\n';
+		p = std::strtok(NULL, " ");
+	}
+	return cstr;
+}
+*/
+
+// trim all spaces within the string (in place) -- used to transform general names into valid literals
+
+void Util::Trimwithin(std::string &str) {
+	//ltrim(s);
+	//rtrim(s);
+	//s.erase(std::remove_if(s.begin(), s.end(), std::isspace), s.end());
+	str.erase(remove(str.begin(), str.end(), ' '), str.end());
+}
+
+std::string Util::Map2str(std::map<std::string, std::string>* mapss) {
+	std::string res = "";
+	for (std::map<std::string, std::string>::iterator it = mapss->begin(); it != mapss->end(); it++) {
+		res += (*it).first + "=" + (*it).second + " ";
+	}
+	res = res.substr(0, res.length() - 1);
+	return res;
+}
+
+std::string Util::Map2str(std::map<std::string, double>* mapss) {
+	std::string res = "";
+	for (std::map<std::string, double>::iterator it = mapss->begin(); it != mapss->end(); it++) {
+		res += (*it).first + "=" + StrTruncIfInt(std::to_string((*it).second)) + " ";
+	}
+	res = res.substr(0, res.length() - 1);
+	return res;
+}
+
+char Util::DirSeparator() {
+	//#if defined(__linux__)	
+	return '/';
+	//#endif	
+	//	return '\';
+}
+
+std::string Util::List2str(std::list<unsigned int>* list) {
+	std::string res = "";
+	for (unsigned int elem : *list) {
+		res += std::to_string(elem) + ", ";
+	}
+	res = res.substr(0, res.length() - 2);
+	return res;
+}
+
+std::string Util::FilenameFromFullFilename(const std::string& s) {
+	char sep = DirSeparator();
+	size_t i = s.rfind(sep, s.length());
+	if (i != std::string::npos) {
+		return (s.substr(i + 1, s.length() - i));
+	}
+	return s;
+}
+
+void Util::FileDelete(const std::string& filename) {
+	char removeFilename[filename.length() + 1];
+	strcpy(removeFilename, filename.c_str());
+	std::remove(removeFilename);
+}
+
+std::string Util::PathFromFullFilename(const std::string& s) {
+	char sep = DirSeparator();
+	return s.substr(0, s.find_last_of(sep));
+}
+
+std::string Util::RunningPath() {
+	char result[ PATH_MAX ];
+	ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
+	std::string fullfilename = std::string(result, (count > 0) ? count : 0);
+	return PathFromFullFilename(fullfilename);
+}
+
+std::vector<std::string> Util::ListFiles(std::string dir, std::string fileFilter, mode_t attribFilter) {
+	std::vector<std::string> files;
+	DIR *dp;
+	struct dirent *dirp;
+	struct stat statbuffer;
+	if ((dp = opendir(dir.c_str())) == NULL) {
+		//cout << "Error(" << errno << ") opening " << dir << endl;
+		//return errno;
+	}
+	int status;
+	while ((dirp = readdir(dp)) != NULL) {
+		status = stat(dirp->d_name, &statbuffer);
+		if (status & attribFilter) { // https://pubs.opengroup.org/onlinepubs/7908799/xsh/sysstat.h.html
+			if (fileFilter == "" || std::string(dirp->d_name).find(fileFilter) != std::string::npos) {
+				files.push_back(std::string(dirp->d_name));
+			}
+		}
+	}
+	closedir(dp);
+	return files;
+}
+
+bool Util::FileExists(const std::string& name) {
+	try {
+		if (FILE * file = fopen(name.c_str(), "r")) {
+			fclose(file);
+			return true;
+		} else {
+			return false;
+		}
+	} catch (const std::exception& e) {
+		return false;
+
+	}
 }
