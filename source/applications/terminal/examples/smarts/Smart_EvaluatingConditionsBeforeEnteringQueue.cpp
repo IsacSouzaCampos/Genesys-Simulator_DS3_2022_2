@@ -63,7 +63,7 @@ int Smart_EvaluatingConditionsBeforeEnteringQueue::main(int argc, char** argv) {
         assign1->getAssignments()->insert(new Assignment(model, "Time_In", "TNOW"));
         
         std::string timeGoneBy        = "(TNOW - procstarttime)";
-        std::string remainingProcTime = "mx(0, proctime - " + timeGoneBy + ")";
+        std::string remainingProcTime = "mx(0,(proctime - " + timeGoneBy + "))";
         Decide* decide = plugins->newInstance<Decide>(model, "Is the remaining process time less than 20?");
         decide->getConditions()->insert(remainingProcTime + " < 20");
         
