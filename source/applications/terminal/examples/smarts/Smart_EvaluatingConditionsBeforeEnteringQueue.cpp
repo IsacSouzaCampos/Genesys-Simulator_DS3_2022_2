@@ -73,15 +73,21 @@ int Smart_EvaluatingConditionsBeforeEnteringQueue::main(int argc, char** argv) {
         assign2->getAssignments()->insert(new Assignment(model, "procstarttime", "TNOW", false));
         assign2->getAssignments()->insert(new Assignment(model, "proctime", "expo(480)", false));
         
-//        Process* process2 = plugins->newInstance<Process>(model, "Begin processing delay then release resource");
-//	
-//	Dispose* disposeTrue  = plugins->newInstance<Dispose>(model, "Dispose of entity");
-//        Dispose* disposeFalse = plugins->newInstance<Dispose>(model, "Dispose of entity if condition not met");
+        Process* process2 = plugins->newInstance<Process>(model, "Begin processing delay then release resource");
+	
+	Dispose* disposeTrue  = plugins->newInstance<Dispose>(model, "Dispose of entity");
+        Dispose* disposeFalse = plugins->newInstance<Dispose>(model, "Dispose of entity if condition not met");
 	
         
         // connect model components to create a "workflow"
-//	create1->getConnections()->insert(dummy1);
-//	dummy1->getConnections()->insert(dispose1);
+	create->getConnections()->insert(assign1);
+	assign1->getConnections()->insert(decide);
+        // decide == true
+        decide->getConnections()->insert(process1);
+        process1->getConnections()->insert(assign2);
+        assign2->getConnections()->insert(disposeTrue);
+        // decide == false
+        decide->getConnections()->insert(disposeFalse);
 	
         
         // set options, save and simulate

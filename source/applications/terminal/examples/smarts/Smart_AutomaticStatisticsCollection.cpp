@@ -73,7 +73,7 @@ int Smart_AutomaticStatisticsCollection::main(int argc, char** argv) {
 	
         // set options, save and simulate
 	model->getSimulation()->setReplicationLength(480, Util::TimeUnit::minute);
-	model->getSimulation()->setNumberOfReplications(1);
+	model->getSimulation()->setNumberOfReplications(1000);
         model->save("./models/Smart_AutomaticStatisticsCollection.gen");
 	model->getSimulation()->start();
         
