@@ -98,9 +98,9 @@ template <> struct TraitsApp<GenesysApplication_if> {
         
         //DS3
         //typedef Smart_AutomaticStatisticsCollection Application;
-        //typedef Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime Application;
+        typedef Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime Application;
         //typedef Smart_DefiningResourceCapacity Application;
-        typedef Smart_EvaluatingConditionsBeforeEnteringQueue Application;
+        //typedef Smart_EvaluatingConditionsBeforeEnteringQueue Application;
         
 	//typedef Smart_Failures Application;
 	//typedef Smart_FinitStateMachine Application;
