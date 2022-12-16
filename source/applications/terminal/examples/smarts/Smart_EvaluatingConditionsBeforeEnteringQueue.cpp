@@ -24,7 +24,12 @@
 #include "../../../../plugins/components/Create.h"
 #include "../../../../plugins/components/Assign.h"
 #include "../../../../plugins/components/Decide.h"
-#include "../../../../plugins/components/Process.h"
+//#include "../../../../plugins/components/Process.h"
+//#include "../../../../plugins/components/Process.h"
+#include "../../../../plugins/data/Resource.h"
+#include "../../../../plugins/components/Seize.h"
+#include "../../../../plugins/components/Delay.h"
+#include "../../../../plugins/components/Release.h"
 #include "../../../../plugins/components/Dispose.h"
 
 Smart_EvaluatingConditionsBeforeEnteringQueue::Smart_EvaluatingConditionsBeforeEnteringQueue() {
@@ -67,13 +72,32 @@ int Smart_EvaluatingConditionsBeforeEnteringQueue::main(int argc, char** argv) {
         Decide* decide = plugins->newInstance<Decide>(model, "Is the remaining process time less than 20?");
         decide->getConditions()->insert(remainingProcTime + " < 20");
         
-        Process* process1 = plugins->newInstance<Process>(model, "Begin processing by seizing resource");
+        Resource* resource = plugins->newInstance<Resource>(model);
+        resource->setCapacity(1);
+
+        // Process 1        
+        Seize* seize1 = plugins->newInstance<Seize>(model);
+        seize1->setAllocationType(Util::AllocationType::ValueAdded);
+        seize1->getSeizeRequests()->insert(new SeizableItem(resource));
+        seize1->setQueueableItem(new QueueableItem(plugins->newInstance<Queue>(model)));
+        
+        Delay* delay1 = plugins->newInstance<Delay>(model);
+        delay1->setAllocation(Util::AllocationType::ValueAdded);
+        delay1->setDelayTimeUnit(Util::TimeUnit::minute);
+        delay1->setDelay(0);
         
         Assign* assign2        = plugins->newInstance<Assign>(model, "Assign variables Procstarttime and Proctime");
         assign2->getAssignments()->insert(new Assignment(model, "procstarttime", "TNOW", false));
         assign2->getAssignments()->insert(new Assignment(model, "proctime", "expo(480)", false));
+
+        // Process 2
+        Delay* delay2 = plugins->newInstance<Delay>(model);
+        delay2->setAllocation(Util::AllocationType::ValueAdded);
+        delay2->setDelayTimeUnit(Util::TimeUnit::minute);
+        delay2->setDelayExpression("proctime");
         
-        Process* process2 = plugins->newInstance<Process>(model, "Begin processing delay then release resource");
+        Release* release = plugins->newInstance<Release>(model);
+        release->getReleaseRequests()->insert(new SeizableItem(resource));
 	
 	Dispose* disposeTrue  = plugins->newInstance<Dispose>(model, "Dispose of entity");
         Dispose* disposeFalse = plugins->newInstance<Dispose>(model, "Dispose of entity if condition not met");
@@ -83,9 +107,12 @@ int Smart_EvaluatingConditionsBeforeEnteringQueue::main(int argc, char** argv) {
 	create->getConnections()->insert(assign1);
 	assign1->getConnections()->insert(decide);
         // decide == true
-        decide->getConnections()->insert(process1);
-        process1->getConnections()->insert(assign2);
-        assign2->getConnections()->insert(disposeTrue);
+        decide->getConnections()->insert(seize1);
+        seize1->getConnections()->insert(delay1);
+        delay1->getConnections()->insert(assign2);
+        assign2->getConnections()->insert(delay2);
+        delay2->getConnections()->insert(release);
+        release->getConnections()->insert(disposeTrue);
         // decide == false
         decide->getConnections()->insert(disposeFalse);
 	

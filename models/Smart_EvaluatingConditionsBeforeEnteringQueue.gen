@@ -9,13 +9,17 @@
 62  Variable   "proctime" 
 63  EntityType "Entity 1" 
 65  Attribute  "Time_In" 
+68  Resource   "Resource_1" 
+70  Queue      "Queue_1" 
 
 # Model Components
 64  Create     "Create Entity" entityType="Entity 1" timeBetweenCreationsTimeUnit=6 nextId=66 timeBetweenCreations="60" 
 66  Assign     "Assign attribute time in equal to current time variable TNOW" assignExpr[0]="TNOW" nextId=67 assignDest[0]="Time_In" 
-67  Decide     "Is the remaining process time less than 20?" condition[0]="max(0,(proctime - (TNOW - procstarttime))) < 20" conditions=1 nextId[0]=68 nextId[1]=78 nexts=2 
-68  Process    "Begin processing by seizing resource" resquests=0 nextId=72 
-72  Assign     "Assign variables Procstarttime and Proctime" assignIsAttrib[0]=0 assignExpr[0]="TNOW" assignments=2 nextId=77 assignExpr[2]="expo(480)" assignDest[2]="proctime" assignIsAttrib[2]=0 assignDest[0]="procstarttime" 
-73  Process    "Begin processing delay then release resource" nextId=4294967295 resquests=0 nexts=0 
-77  Dispose    "Dispose of entity" nexts=0 
-78  Dispose    "Dispose of entity if condition not met" nexts=0 
+67  Decide     "Is the remaining process time less than 20?" condition[0]="mx(0,(proctime - (TNOW - procstarttime))) < 20" conditions=1 nextId[0]=69 nextId[1]=76 nexts=2 
+69  Seize      "Seize_1" queueable="Queue_1" allocationType=1 nextId=71 requestSeizable[0]="Resource_1" 
+71  Delay      "Delay_1" allocation=1 delayExpressionTimeUnit=6 delayExpression="0.000000" nextId=72 
+72  Assign     "Assign variables Procstarttime and Proctime" assignIsAttrib[0]=0 assignExpr[0]="TNOW" assignments=2 nextId=73 assignExpr[2]="expo(480)" assignDest[2]="proctime" assignIsAttrib[2]=0 assignDest[0]="procstarttime" 
+73  Delay      "Delay_2" allocation=1 delayExpressionTimeUnit=6 delayExpression="proctime" nextId=74 
+74  Release    "Release_1" nextId=75 requestSeizable[0]="Resource_1" 
+75  Dispose    "Dispose of entity" nexts=0 
+76  Dispose    "Dispose of entity if condition not met" nexts=0 
