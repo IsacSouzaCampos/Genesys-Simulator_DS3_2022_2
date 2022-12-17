@@ -56,7 +56,7 @@ int Smart_DefiningResourceCapacity::main(int argc, char** argv) {
         //bookkeeper1->setCostIdleTimeUnit(0);
   
         Resource* bookkeeper2 = plugins->newInstance<Resource>(model);
-        bookkeeper2->setCapacity(1);
+        bookkeeper2->setCapacity(4);
         //bookkeeper2->setCostBusyTimeUnit(0);
         //bookkeeper2->setCostIdleTimeUnit(0);
         
