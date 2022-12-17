@@ -113,7 +113,8 @@ int Smart_DefiningResourceCapacity::main(int argc, char** argv) {
         sim->setReplicationLengthTimeUnit(Util::TimeUnit::minute);
         sim->setNumberOfReplications(300);
         sim->setWarmUpPeriod(sim->getReplicationLength()*0.05); //5% de 480 = 24
-        sim->setWarmUpPeriodTimeUnit(Util::TimeUnit::minute);	model->save("./models/Smart_DefiningResourceCapacity.gen");
+        sim->setWarmUpPeriodTimeUnit(Util::TimeUnit::minute);	
+        model->save("./models/Smart_DefiningResourceCapacity.gen");
 	sim->start();
         
         for(int i = 0; i < 1e9; i++);

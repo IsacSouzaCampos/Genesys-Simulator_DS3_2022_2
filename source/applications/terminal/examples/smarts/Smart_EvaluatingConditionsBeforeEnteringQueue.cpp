@@ -118,9 +118,16 @@ int Smart_EvaluatingConditionsBeforeEnteringQueue::main(int argc, char** argv) {
 	
         
         // set options, save and simulate
-	model->getSimulation()->setReplicationLength(60, Util::TimeUnit::second);
+        ModelSimulation* sim = model->getSimulation();
+        
+        //sim->setTerminatingCondition("count(Dispose_1.CountNumberIn)>1000");
+        sim->setReplicationLength(480);//tem q variar
+        sim->setReplicationLengthTimeUnit(Util::TimeUnit::minute);
+        sim->setNumberOfReplications(300);
+        sim->setWarmUpPeriod(sim->getReplicationLength()*0.05); //5% de 480 = 24
+        sim->setWarmUpPeriodTimeUnit(Util::TimeUnit::minute);	
 	model->save("./models/Smart_EvaluatingConditionsBeforeEnteringQueue.gen");
-	model->getSimulation()->start();
+	sim->start();
         
         for(int i = 0; i < 1e9; i++);
 	delete genesys;
