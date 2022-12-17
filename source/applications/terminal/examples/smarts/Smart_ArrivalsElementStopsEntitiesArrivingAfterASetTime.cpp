@@ -34,6 +34,7 @@ Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime::Smart_ArrivalsElementSt
  */
 int Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime::main(int argc, char** argv) {
 	Simulator* genesys = new Simulator();
+        genesys->getTracer()->setTraceLevel(TraceManager::Level::L2_results);
 	this->setDefaultTraceHandlers(genesys->getTracer());
 	this->insertFakePluginsByHand(genesys);
 	
@@ -47,40 +48,41 @@ int Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime::main(int argc, char
         
         Create* create = plugins->newInstance<Create>(model);
         create->setEntityType(entityType);
+        create->setEntitiesPerCreation(1);
         create->setTimeUnit(Util::TimeUnit::minute);
         create->setTimeBetweenCreationsExpression("EXPO(5)");
         
-        Resource* resource1 = plugins->newInstance<Resource>(model, "Teller");
+        Resource* resourceTeller = plugins->newInstance<Resource>(model, "Teller");
         
-        Process* process1 = plugins->newInstance<Process>(model, "Work with Teller");
-        process1->getSeizeRequests()->insert(new SeizableItem(resource1));
-	process1->setQueueableItem(new QueueableItem(plugins->newInstance<Queue>(model)));
-        process1->setDelayTimeUnit(Util::TimeUnit::minute);
-        process1->setAllocationType(Util::AllocationType::ValueAdded);
-	process1->setDelayExpression("tria(1,2,3)");
-        process1->setPriority(2);
+        Process* processTeller = plugins->newInstance<Process>(model, "Work with Teller");
+        processTeller->getSeizeRequests()->insert(new SeizableItem(resourceTeller));
+	processTeller->setQueueableItem(new QueueableItem(plugins->newInstance<Queue>(model)));
+        processTeller->setDelayTimeUnit(Util::TimeUnit::minute);
+        processTeller->setAllocationType(Util::AllocationType::ValueAdded);
+	processTeller->setDelayExpression("tria(1,2,3)");
+        processTeller->setPriority(2);
         
         Decide* decide = plugins->newInstance<Decide>(model);
-        decide->getConditions()->insert("DISC(0.25, 1, 1, 0) > 0");
+        decide->getConditions()->insert("UNIF(0,1)<0.25");
 	
-        Resource* resource2 = plugins->newInstance<Resource>(model, "Supervisor");
+        Resource* resourceSupervisor = plugins->newInstance<Resource>(model, "Supervisor");
         
-        Process* process2 = plugins->newInstance<Process>(model, "Work with Supervisor");
-        process2->getSeizeRequests()->insert(new SeizableItem(resource2));
-	process2->setQueueableItem(new QueueableItem(plugins->newInstance<Queue>(model)));
-        process2->setDelayTimeUnit(Util::TimeUnit::minute);
-        process2->setAllocationType(Util::AllocationType::ValueAdded);
-	process2->setDelayExpression("tria(5,10,15)");
-        process2->setPriority(2);
+        Process* processSupervisor = plugins->newInstance<Process>(model, "Work with Supervisor");
+        processSupervisor->getSeizeRequests()->insert(new SeizableItem(resourceSupervisor));
+	processSupervisor->setQueueableItem(new QueueableItem(plugins->newInstance<Queue>(model)));
+        processSupervisor->setDelayTimeUnit(Util::TimeUnit::minute);
+        processSupervisor->setAllocationType(Util::AllocationType::ValueAdded);
+	processSupervisor->setDelayExpression("tria(5,10,15)");
+        processSupervisor->setPriority(2);
         
         Dispose* dispose = plugins->newInstance<Dispose>(model);
 	
         // connect model components to create a "workflow"
-	create->getConnections()->insert(process1);
-        process1->getConnections()->insert(decide);
+	create->getConnections()->insert(processTeller);
+        processTeller->getConnections()->insert(decide);
         // True
-        decide->getConnections()->insert(process2);
-        process2->getConnections()->insert(process1);
+        decide->getConnections()->insert(processSupervisor);
+        processSupervisor->getConnections()->insert(processTeller);
         // False
         decide->getConnections()->insert(dispose);
 	
@@ -88,11 +90,12 @@ int Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime::main(int argc, char
         ModelSimulation* sim = model->getSimulation();
         
         //sim->setTerminatingCondition("count(Dispose_1.CountNumberIn)>1000");
-        sim->setReplicationLength(480);//tem q variar
-        sim->setReplicationLengthTimeUnit(Util::TimeUnit::minute);
+        sim->setReplicationLength(510, Util::TimeUnit::minute);//tem q variar
+//        sim->setReplicationLengthTimeUnit(Util::TimeUnit::minute);
         sim->setNumberOfReplications(300);
-        sim->setWarmUpPeriod(sim->getReplicationLength()*0.05); //5% de 480 = 24
-        sim->setWarmUpPeriodTimeUnit(Util::TimeUnit::minute);	
+        sim->setWarmUpPeriod(sim->getReplicationLength()*0.05); //5% de 510
+        sim->setWarmUpPeriodTimeUnit(Util::TimeUnit::minute);
+        sim->setReplicationReportBaseTimeUnit(Util::TimeUnit::minute);
 	model->save("./models/Smart_ArrivalsElementStopsEntitiesArrivingAfterASetTime.gen");
 	sim->start();
         
